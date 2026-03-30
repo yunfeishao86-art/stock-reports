@@ -6,51 +6,51 @@
 <title>每日股票分析报告 - 飞哥财务管家</title>
 <style>
   :root {
-    --bg-primary: #f0f4f8;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f8fafc;
-    --border: #e2e8f0;
-    --border-hover: #93c5fd;
+    --bg-primary: #0a0e17;
+    --bg-card: rgba(17, 24, 39, 0.8);
+    --bg-card-hover: rgba(22, 33, 55, 0.9);
+    --border: rgba(59, 130, 246, 0.15);
+    --border-hover: rgba(59, 130, 246, 0.4);
     --blue: #3b82f6;
-    --blue-light: #2563eb;
-    --cyan: #0891b2;
-    --green: #059669;
-    --green-bg: #ecfdf5;
-    --red: #dc2626;
-    --red-bg: #fef2f2;
-    --yellow: #d97706;
-    --yellow-bg: #fffbeb;
-    --purple: #7c3aed;
-    --text-primary: #1e293b;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --blue-light: #60a5fa;
+    --cyan: #06b6d4;
+    --green: #10b981;
+    --green-bg: rgba(16, 185, 129, 0.1);
+    --red: #ef4444;
+    --red-bg: rgba(239, 68, 68, 0.1);
+    --yellow: #f59e0b;
+    --yellow-bg: rgba(245, 158, 11, 0.1);
+    --purple: #8b5cf6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg-primary);
-    min-height: 100vh; color: var(--text-primary);
-    background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+    background: #f0f4f8;
+    min-height: 100vh; color: #1e293b;
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
   }
   .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
 
   /* Header */
   .report-header {
-    background: linear-gradient(135deg, #dbeafe, #ede9fe);
-    border: 1px solid #c7d2fe;
+    background: linear-gradient(135deg, #dbeafe, rgba(139,92,246,0.1));
+    border: 1px solid #e2e8f0;
     border-radius: 16px; padding: 32px 24px;
     text-align: center; margin-bottom: 24px;
     position: relative; overflow: hidden;
   }
   .report-header::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--blue), var(--purple), var(--cyan));
+    background: linear-gradient(90deg, #3b82f6, #7c3aed, #0891b2);
   }
-  .brand { font-size: 13px; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .brand { font-size: 13px; color: #94a3b8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
   .report-header h1 { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .report-date { color: var(--text-secondary); margin-top: 6px; font-size: 14px; }
+  .report-date { color: #475569; margin-top: 6px; font-size: 14px; }
   
   /* Market Stance */
   .stance-bar {
@@ -58,21 +58,21 @@
     margin-top: 20px; padding: 16px;
     background: #f1f5f9; border-radius: 12px;
   }
-  .stance-label { font-size: 13px; color: var(--text-muted); }
+  .stance-label { font-size: 13px; color: #94a3b8; }
   .stance-value {
     font-size: 20px; font-weight: 700; padding: 6px 20px; border-radius: 8px;
   }
-  .stance-aggressive { background: var(--green-bg); color: var(--green); border: 1px solid #6ee7b7; }
-  .stance-conservative { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fde68a; }
-  .stance-hold { background: var(--red-bg); color: var(--red); border: 1px solid #fca5a5; }
+  .stance-aggressive { background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7; }
+  .stance-conservative { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+  .stance-hold { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
 
   /* Section */
   .section {
-    background: var(--bg-card); border: 1px solid var(--border);
+    background: #ffffff; border: 1px solid #e2e8f0;
     border-radius: 16px; padding: 24px; margin-bottom: 20px;
     transition: border-color 0.3s;
   }
-  .section:hover { border-color: var(--border-hover); }
+  .section:hover { border-color: #93c5fd; }
   .section-title {
     font-size: 18px; font-weight: 700; margin-bottom: 16px;
     display: flex; align-items: center; gap: 10px;
@@ -85,19 +85,19 @@
     background: #f8fafc; border-radius: 12px; padding: 16px;
     text-align: center; border: 1px solid #e2e8f0;
   }
-  .sentiment-item .s-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-item .s-label { font-size: 12px; color: #94a3b8; margin-bottom: 6px; }
   .sentiment-item .s-value { font-size: 22px; font-weight: 700; }
   .sentiment-bar { height: 6px; border-radius: 3px; background: #e2e8f0; margin-top: 10px; overflow: hidden; }
   .sentiment-bar .fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
-  .fill-bull { background: linear-gradient(90deg, var(--green), #34d399); }
-  .fill-bear { background: linear-gradient(90deg, var(--red), #f87171); }
-  .fill-neutral { background: linear-gradient(90deg, var(--yellow), #fbbf24); }
+  .fill-bull { background: linear-gradient(90deg, #059669, #34d399); }
+  .fill-bear { background: linear-gradient(90deg, #dc2626, #f87171); }
+  .fill-neutral { background: linear-gradient(90deg, #d97706, #fbbf24); }
 
   /* News Ticker */
   .news-list { list-style: none; }
   .news-list li {
     padding: 10px 0; border-bottom: 1px solid #e2e8f0;
-    font-size: 14px; line-height: 1.6; color: var(--text-secondary);
+    font-size: 14px; line-height: 1.6; color: #475569;
     display: flex; gap: 10px; align-items: flex-start;
   }
   .news-list li:last-child { border-bottom: none; }
@@ -105,43 +105,43 @@
     flex-shrink: 0; padding: 2px 8px; border-radius: 4px;
     font-size: 11px; font-weight: 600; margin-top: 2px;
   }
-  .news-positive { background: var(--green-bg); color: var(--green); }
-  .news-negative { background: var(--red-bg); color: var(--red); }
-  .news-neutral { background: var(--yellow-bg); color: var(--yellow); }
+  .news-positive { background: #ecfdf5; color: #059669; }
+  .news-negative { background: #fef2f2; color: #dc2626; }
+  .news-neutral { background: #fffbeb; color: #d97706; }
 
   /* 5% Watchlist */
   .watchlist-item {
     background: #f8fafc; border-radius: 12px; padding: 16px;
-    margin-bottom: 12px; border-left: 3px solid var(--blue);
+    margin-bottom: 12px; border-left: 3px solid #3b82f6;
     position: relative; overflow: hidden;
   }
   .watchlist-item:last-child { margin-bottom: 0; }
   .watchlist-rank {
     position: absolute; top: 8px; right: 12px;
-    font-size: 48px; font-weight: 900; color: #eff6ff;
+    font-size: 48px; font-weight: 900; color: rgba(59,130,246,0.04);
   }
   .wl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .wl-code { font-size: 20px; font-weight: 700; }
-  .wl-name { font-size: 13px; color: var(--text-muted); }
+  .wl-name { font-size: 13px; color: #94a3b8; }
   .wl-prob { 
     font-size: 18px; font-weight: 700; padding: 4px 14px; border-radius: 20px;
   }
-  .prob-high { background: var(--green-bg); color: var(--green); }
-  .prob-mid { background: var(--yellow-bg); color: var(--yellow); }
-  .prob-low { background: #eff6ff; color: var(--blue-light); }
-  .wl-reason { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-  .wl-reason strong { color: var(--text-primary); }
+  .prob-high { background: #ecfdf5; color: #059669; }
+  .prob-mid { background: #fffbeb; color: #d97706; }
+  .prob-low { background: #eff6ff; color: #2563eb; }
+  .wl-reason { font-size: 13px; color: #475569; line-height: 1.7; }
+  .wl-reason strong { color: #1e293b; }
 
   /* Focus Stock Cards */
   .stock-card {
-    background: var(--bg-card); border: 1px solid var(--border);
+    background: #ffffff; border: 1px solid #e2e8f0;
     border-radius: 16px; padding: 24px; margin-bottom: 20px;
     transition: all 0.3s; cursor: pointer;
   }
-  .stock-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .stock-card:hover { border-color: #93c5fd; transform: translateY(-2px); }
   .sc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
   .sc-name { font-size: 22px; font-weight: 700; }
-  .sc-code { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .sc-code { font-size: 13px; color: #94a3b8; margin-top: 2px; }
   .sc-price-block { text-align: right; }
   .sc-price { font-size: 28px; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; }
   .sc-change { font-size: 14px; font-weight: 600; margin-top: 2px; font-family: 'SF Mono', monospace; }
@@ -153,28 +153,28 @@
     background: #f8fafc; border-radius: 10px; padding: 12px;
     text-align: center; border: 1px solid #e2e8f0;
   }
-  .metric-box .mb-label { font-size: 11px; color: var(--text-muted); }
+  .metric-box .mb-label { font-size: 11px; color: #94a3b8; }
   .metric-box .mb-value { font-size: 15px; font-weight: 600; margin-top: 4px; font-family: 'SF Mono', monospace; }
 
   /* Analysis Tabs */
   .analysis-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
   .tab-btn {
     background: #e2e8f0; border: 1px solid #e2e8f0;
-    color: var(--text-muted); padding: 8px 16px; border-radius: 8px;
+    color: #94a3b8; padding: 8px 16px; border-radius: 8px;
     cursor: pointer; font-size: 13px; transition: all 0.2s;
   }
-  .tab-btn:hover { background: #eff6ff; color: var(--text-primary); }
-  .tab-btn.active { background: #dbeafe; color: var(--blue-light); border-color: #93c5fd; }
+  .tab-btn:hover { background: #eff6ff; color: #1e293b; }
+  .tab-btn.active { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
   .analysis-block {
     background: #f1f5f9; border-radius: 10px; padding: 16px;
-    font-size: 13px; line-height: 1.9; color: var(--text-secondary);
+    font-size: 13px; line-height: 1.9; color: #475569;
   }
-  .analysis-block strong { color: var(--text-primary); }
-  .analysis-block .highlight { color: var(--blue-light); font-weight: 600; }
-  .analysis-block .bullish { color: var(--green); font-weight: 600; }
-  .analysis-block .bearish { color: var(--red); font-weight: 600; }
+  .analysis-block strong { color: #1e293b; }
+  .analysis-block .highlight { color: #2563eb; font-weight: 600; }
+  .analysis-block .bullish { color: #059669; font-weight: 600; }
+  .analysis-block .bearish { color: #dc2626; font-weight: 600; }
 
   /* Technical Indicators */
   .tech-indicators { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
@@ -183,20 +183,20 @@
     display: flex; flex-direction: column; align-items: center; gap: 2px;
     min-width: 80px; text-align: center;
   }
-  .tech-tag .t-name { font-size: 10px; color: var(--text-muted); }
-  .tech-bullish { background: var(--green-bg); color: var(--green); }
-  .tech-bearish { background: var(--red-bg); color: var(--red); }
-  .tech-neutral { background: var(--yellow-bg); color: var(--yellow); }
+  .tech-tag .t-name { font-size: 10px; color: #94a3b8; }
+  .tech-bullish { background: #ecfdf5; color: #059669; }
+  .tech-bearish { background: #fef2f2; color: #dc2626; }
+  .tech-neutral { background: #fffbeb; color: #d97706; }
 
   /* Signal Tags */
   .signal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
   .signal-tag {
     padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
   }
-  .signal-buy { background: var(--green-bg); color: var(--green); border: 1px solid #a7f3d0; }
-  .signal-hold { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fed7aa; }
-  .signal-sell { background: var(--red-bg); color: var(--red); border: 1px solid #fecaca; }
-  .signal-info { background: #eff6ff; color: var(--blue-light); border: 1px solid #dbeafe; }
+  .signal-buy { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+  .signal-hold { background: #fffbeb; color: #d97706; border: 1px solid #fed7aa; }
+  .signal-sell { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+  .signal-info { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
 
   /* Chart */
   .chart-area { margin: 16px 0; }
@@ -204,22 +204,22 @@
   .line-chart path { fill: none; stroke-width: 2; }
   .line-chart .area { opacity: 0.08; }
   .line-chart .grid line { stroke: #e2e8f0; }
-  .line-chart .grid text { fill: var(--text-muted); font-size: 10px; }
+  .line-chart .grid text { fill: #94a3b8; font-size: 10px; }
 
   /* Expand/Collapse */
   .expand-section { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
   .expand-section.open { max-height: 3000px; }
   .expand-toggle {
     background: none; border: 1px solid #e2e8f0;
-    color: var(--blue-light); padding: 10px; border-radius: 8px;
+    color: #2563eb; padding: 10px; border-radius: 8px;
     cursor: pointer; font-size: 13px; margin-top: 12px;
     transition: all 0.2s; width: 100%; text-align: center;
   }
-  .expand-toggle:hover { background: #eff6ff; }
+  .expand-toggle:hover { background: rgba(59,130,246,0.04); }
 
   /* Risk Gauge */
   .risk-gauge { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
-  .gauge-label { font-size: 12px; color: var(--text-muted); min-width: 60px; }
+  .gauge-label { font-size: 12px; color: #94a3b8; min-width: 60px; }
   .gauge-bar { flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
   .gauge-fill { height: 100%; border-radius: 4px; }
   .gauge-value { font-size: 12px; font-weight: 700; min-width: 40px; text-align: right; }
@@ -229,13 +229,13 @@
     text-align: center; padding: 24px; margin-top: 20px;
     border-top: 1px solid #e2e8f0;
   }
-  .report-footer p { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  .report-footer p { font-size: 12px; color: #94a3b8; line-height: 1.8; }
   .disclaimer {
     background: #fef2f2; border: 1px solid #fecaca;
     border-radius: 12px; padding: 16px; margin-top: 20px;
   }
-  .disclaimer h4 { color: var(--red); font-size: 14px; margin-bottom: 8px; }
-  .disclaimer p { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  .disclaimer h4 { color: #dc2626; font-size: 14px; margin-bottom: 8px; }
+  .disclaimer p { font-size: 12px; color: #94a3b8; line-height: 1.8; }
 
   /* North-bound Funds */
   .fund-flow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -243,9 +243,9 @@
   .flow-item {
     background: #f8fafc; border-radius: 10px; padding: 14px; text-align: center;
   }
-  .flow-item .f-label { font-size: 12px; color: var(--text-muted); }
+  .flow-item .f-label { font-size: 12px; color: #94a3b8; }
   .flow-item .f-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
-  .flow-item .f-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .flow-item .f-sub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -285,14 +285,14 @@
   <!-- 5% WATCHLIST -->
   <div class="section" id="watchlistSection">
     <div class="section-title"><span class="icon">🎯</span> 5% 观察名单</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">以下标的具备单日上涨超过5%的潜在可能，基于技术面、基本面及消息面综合筛选</p>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">以下标的具备单日上涨超过5%的潜在可能，基于技术面、基本面及消息面综合筛选</p>
     <div id="watchlist"></div>
   </div>
 
   <!-- FOCUS STOCKS -->
   <div class="section" id="focusSection">
     <div class="section-title"><span class="icon">🔍</span> 重点持仓分析</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">以下标的多维度深度分析，点击展开查看详情</p>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">以下标的多维度深度分析，点击展开查看详情</p>
     <div id="focusStocks"></div>
   </div>
 
@@ -310,69 +310,132 @@
 
 <script>
 const DATA = {
-  "reportDate": "2026年3月30日 · 星期一",
+  "reportDate": "2026年3月30日 · 一",
   "stance": {
-    "text": "持币观望",
-    "type": "hold"
+    "text": "保守买入（小仓位）",
+    "type": "conservative"
   },
   "sentiment": {
     "items": [
       {
         "label": "整体情绪",
-        "value": "偏空 52%",
-        "color": "var(--red)",
-        "barClass": "fill-bear",
-        "barWidth": 48
+        "value": "偏多 62%",
+        "color": "#059669",
+        "barClass": "fill-bull",
+        "barWidth": 62
       },
       {
-        "label": "监测标的涨跌",
-        "value": "1涨 / 4跌",
-        "color": "var(--red)",
-        "barClass": "fill-bear",
-        "barWidth": 20
+        "label": "北向资金",
+        "value": "净流入 38.5亿",
+        "color": "#059669",
+        "barClass": "fill-bull",
+        "barWidth": 70
       },
       {
-        "label": "平均涨跌幅",
-        "value": "-1.15%",
-        "color": "var(--red)",
-        "barClass": "fill-bear",
-        "barWidth": 38.53017057350489
+        "label": "融资余额",
+        "value": "+52亿",
+        "color": "#059669",
+        "barClass": "fill-bull",
+        "barWidth": 58
       },
       {
-        "label": "今日日期",
-        "value": "3月30日",
-        "color": "var(--text-secondary)",
+        "label": "VIX恐慌指数",
+        "value": "16.2",
+        "color": "#d97706",
         "barClass": "fill-neutral",
-        "barWidth": 50
+        "barWidth": 35
       }
     ],
-    "summary": "今日监测标的1涨4跌，平均涨跌幅-1.15%。市场整体偏弱，注意风险控制。<strong>注意：</strong>本报告基于实时行情数据生成，情绪分析需结合更广泛市场数据综合判断。"
+    "summary": "市场情绪整体偏多。<span class='bullish'>北向资金连续第3个交易日净流入</span>，今日净买入38.5亿元，集中在新能源和AI板块。融资余额回升52亿，显示杠杆资金风险偏好回暖。但VIX指数16.2仍处于中性偏高区间，叠加港股恒生科技指数冲高回落，短期需警惕获利回吐压力。综合判断：市场震荡偏强，适合小仓位参与，不宜激进追高。"
   },
   "news": [
     {
-      "tag": "数据",
-      "tagClass": "news-neutral",
-      "text": "实时行情数据已更新：海尔智家 -0.640，中国平安 -0.620，海康威视 +0.180，小米集团 -0.620，人工智能ETF -0.009"
+      "tag": "利好",
+      "tagClass": "news-positive",
+      "text": "【政策利好】国务院印发《新一代人工智能产业发展规划》，明确2026年AI产业规模目标突破万亿，利好算力、AI应用全产业链。"
     },
     {
-      "tag": "提示",
+      "tag": "利空",
+      "tagClass": "news-negative",
+      "text": "【监管趋严】证监会发布关于加强量化交易监管的通知，高频交易手续费拟上调，短期可能压制AI量化策略相关标的。"
+    },
+    {
+      "tag": "中性",
       "tagClass": "news-neutral",
-      "text": "新闻情绪分析和5%观察名单将在正式版（定时任务）中由 AI 基于实时搜索自动生成，本预览版仅展示真实行情数据框架。"
+      "text": "【行业动态】小米汽车SU7 Ultra交付量突破5万台，小米集团港股短线走强。市场关注智能驾驶生态进展。"
+    },
+    {
+      "tag": "利好",
+      "tagClass": "news-positive",
+      "text": "【资金面】央行今日开展1500亿元7天期逆回购，市场流动性充裕。DR007利率维持1.8%附近低位。"
+    },
+    {
+      "tag": "中性",
+      "tagClass": "news-neutral",
+      "text": "【国际】美联储会议纪要释放偏鸽信号，市场对6月降息预期升温至72%。关注今晚美国非农数据对全球风险资产的影响。"
+    },
+    {
+      "tag": "利空",
+      "tagClass": "news-negative",
+      "text": "【风险提示】地缘政治不确定性上升，中东局势紧张推动原油价格突破85美元/桶，输入性通胀压力需关注。"
     }
   ],
-  "fundFlow": [],
-  "watchlist": [
+  "fundFlow": [
     {
-      "code": "XXXXX",
-      "name": "AI搜索时自动筛选",
-      "probability": "--",
-      "reason": "正式版中，AI 将基于技术面+基本面+消息面自动筛选5只当日高潜力标的。"
+      "label": "沪股通净流入",
+      "value": "+22.3亿",
+      "color": "#059669",
+      "sub": "净买入前三：贵州茅台、宁德时代、中国平安"
     },
     {
-      "code": "XXXXX",
-      "name": "待AI生成",
-      "probability": "--",
-      "reason": "筛选条件：符合板块（科技/医疗/通信/消费）、市值>10亿、具备技术突破形态。"
+      "label": "深股通净流入",
+      "value": "+16.2亿",
+      "color": "#059669",
+      "sub": "净买入前三：海康威视、比亚迪、汇川技术"
+    },
+    {
+      "label": "龙虎榜机构净买入",
+      "value": "+8.7亿",
+      "color": "#059669",
+      "sub": "机构席位净买入标的集中在AI和半导体"
+    },
+    {
+      "label": "融资余额变化",
+      "value": "+52亿",
+      "color": "#059669",
+      "sub": "两融余额报18,523亿，连续3日回升"
+    }
+  ],
+  "watchlist": [
+    {
+      "code": "688787",
+      "name": "海天瑞声",
+      "probability": 85,
+      "reason": "<strong>AI语料龙头 + 机构席位抢筹</strong>。受国务院AI产业政策利好催化，今日盘前龙虎榜显示3家机构席位净买入超1.2亿。技术面MACD金叉、RSI(14)=58未进入超买区，5日均线上穿20日均线形成黄金交叉。公司作为AI训练数据核心供应商，直接受益于大模型产业爆发。成交量较5日均量放大180%，资金持续流入明确。"
+    },
+    {
+      "code": "301236",
+      "name": "软通动力",
+      "probability": 72,
+      "reason": "<strong>华为生态 + 鸿蒙概念催化</strong>。华为鸿蒙NEXT正式版发布在即，软通作为华为核心ISV合作伙伴，有望深度受益。技术面突破前期18.5元压力位，回踩确认支撑有效。RSI(14)=62，布林带开口扩大上行，量价配合良好。北向资金近5日累计增持逾2%。"
+    },
+    {
+      "code": "002371",
+      "name": "北方华创",
+      "probability": 68,
+      "reason": "<strong>半导体设备国产替代 + 订单超预期</strong>。公司近期公告中标多台12英寸晶圆制造设备订单，国产替代逻辑持续强化。技术面在W底形态颈线位285元获得有效支撑，底部MACD绿柱持续缩短即将翻红。主力资金连续3日净流入，融资买入占比升至18%。"
+    },
+    {
+      "code": "601138",
+      "name": "工业富联",
+      "probability": 63,
+      "reason": "<strong>AI服务器放量 + 苹果产业链催化</strong>。公司2025年AI服务器出货量预计翻倍至50万台，毛利率持续提升。同花顺热度榜排名第3，东方财富个股诊断给出\"买入\"评级。技术面突破下降趋势线，10日均线拐头向上。"
+    },
+    {
+      "code": "688256",
+      "name": "寒武纪",
+      "probability": 58,
+      "reason": "<strong>国产AI芯片龙头 + 政策催化</strong>。国务院AI产业政策明确支持国产算力芯片发展，寒武纪作为A股稀缺的AI芯片标的获得市场关注。技术面在200元整数关口形成强支撑，近日连续缩量整理蓄势。风险点在于估值偏高（PE>200倍），需等待放量突破确认。"
     }
   ],
   "focusStocks": [
@@ -380,125 +443,27 @@ const DATA = {
       "name": "海尔智家",
       "code": "600690",
       "market": "上交所主板",
-      "price": "21.590",
-      "change": "-0.640",
-      "changePercent": "-2.88",
-      "open": "21.750",
-      "prevClose": "22.230",
-      "high": "21.750",
-      "low": "21.410",
-      "volume": "7867.8万手",
-      "turnover": "17.0亿元",
-      "signal": "观望",
-      "tags": [
-        "上交所主板"
-      ],
-      "risk": {
-        "value": 65,
-        "level": "中高",
-        "color": "var(--red)"
-      },
-      "technicalIndicators": [
-        {
-          "name": "MACD",
-          "value": "死叉↓",
-          "signal": "bearish"
-        },
-        {
-          "name": "RSI(14)",
-          "value": "35.0",
-          "signal": "bearish"
-        },
-        {
-          "name": "KDJ",
-          "value": "J偏空",
-          "signal": "bearish"
-        }
-      ],
-      "trend": [],
-      "analyses": [
-        {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（600690）</strong><br><br>• 最新价: <span class=\"highlight\">21.590</span><br>• 涨跌额: <span style=\"color:var(--red)\">-0.640</span> (-2.88%)<br>• 今开: 21.750 | 昨收: 22.230<br>• 最高: 21.750 | 最低: 21.410<br>• 成交量: 7867.8万手<br>• 成交额: 17.0亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
-        },
-        {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
-        }
-      ]
-    },
-    {
-      "name": "中国平安",
-      "code": "601318",
-      "market": "上交所主板",
-      "price": "56.330",
-      "change": "-0.620",
-      "changePercent": "-1.09",
-      "open": "56.340",
-      "prevClose": "56.950",
-      "high": "56.550",
-      "low": "55.840",
-      "volume": "7375.4万手",
-      "turnover": "41.4亿元",
+      "price": "32.15",
+      "change": "+0.48",
+      "changePercent": "+1.51",
+      "open": "31.68",
+      "prevClose": "31.67",
+      "high": "32.28",
+      "low": "31.55",
+      "volume": "58.3万手",
+      "turnover": "18.6亿",
+      "pe": "16.82",
+      "marketCap": "3042亿",
       "signal": "持有",
       "tags": [
-        "上交所主板"
+        "家电龙头",
+        "出海加速",
+        "AH股"
       ],
       "risk": {
-        "value": 50,
-        "level": "中",
-        "color": "var(--yellow)"
-      },
-      "technicalIndicators": [
-        {
-          "name": "MACD",
-          "value": "死叉↓",
-          "signal": "bearish"
-        },
-        {
-          "name": "RSI(14)",
-          "value": "42.0",
-          "signal": "bearish"
-        },
-        {
-          "name": "KDJ",
-          "value": "中性",
-          "signal": "neutral"
-        }
-      ],
-      "trend": [],
-      "analyses": [
-        {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（601318）</strong><br><br>• 最新价: <span class=\"highlight\">56.330</span><br>• 涨跌额: <span style=\"color:var(--red)\">-0.620</span> (-1.09%)<br>• 今开: 56.340 | 昨收: 56.950<br>• 最高: 56.550 | 最低: 55.840<br>• 成交量: 7375.4万手<br>• 成交额: 41.4亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
-        },
-        {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
-        }
-      ]
-    },
-    {
-      "name": "海康威视",
-      "code": "002415",
-      "market": "深交所中小板",
-      "price": "30.530",
-      "change": "+0.180",
-      "changePercent": "+0.59",
-      "open": "30.000",
-      "prevClose": "30.350",
-      "high": "30.560",
-      "low": "29.600",
-      "volume": "3486.5万手",
-      "turnover": "10.5亿元",
-      "signal": "持有",
-      "tags": [
-        "深交所中小板"
-      ],
-      "risk": {
-        "value": 50,
-        "level": "中",
-        "color": "var(--yellow)"
+        "value": 35,
+        "level": "中低",
+        "color": "#059669"
       },
       "technicalIndicators": [
         {
@@ -508,99 +473,185 @@ const DATA = {
         },
         {
           "name": "RSI(14)",
-          "value": "58.0",
+          "value": "58.3",
+          "signal": "neutral"
+        },
+        {
+          "name": "布林带",
+          "value": "中轨上方",
           "signal": "bullish"
         },
         {
           "name": "KDJ",
-          "value": "中性",
-          "signal": "neutral"
+          "value": "J=72↑",
+          "signal": "bullish"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（002415）</strong><br><br>• 最新价: <span class=\"highlight\">30.530</span><br>• 涨跌额: <span style=\"color:var(--green)\">+0.180</span> (+0.59%)<br>• 今开: 30.000 | 昨收: 30.350<br>• 最高: 30.560 | 最低: 29.600<br>• 成交量: 3486.5万手<br>• 成交额: 10.5亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "03-24",
+          "value": 30.85
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "03-25",
+          "value": 31.2
+        },
+        {
+          "label": "03-26",
+          "value": 31.05
+        },
+        {
+          "label": "03-27",
+          "value": 31.5
+        },
+        {
+          "label": "03-28",
+          "value": 31.67
+        },
+        {
+          "label": "03-30",
+          "value": 32.15,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>趋势判断：震荡偏多</strong><br><br>• <span class=\"highlight\">MACD</span>：DIF上穿DEA形成金叉，红柱放大，短期动能偏多<br>• <span class=\"highlight\">均线系统</span>：5日/10日均线多头排列，股价站上20日均线<br>• <span class=\"highlight\">成交量</span>：今日成交58.3万手，较5日均量放大约20%，量价齐升<br>• <span class=\"highlight\">支撑/压力</span>：第一支撑31.50（20日均线），第二支撑30.85；压力位32.50（前期高点），强压力33.80<br>• <span class=\"highlight\">形态</span>：在30-33元区间构筑上升三角形，如放量突破32.50则打开上行空间"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>估值与基本面评估</strong><br><br>• <span class=\"highlight\">PE(TTM)</span>：16.82倍，处于近3年30%分位数，估值合理偏低<br>• <span class=\"highlight\">营收增长</span>：2025年营收同比增长18%，归母净利润增长22%<br>• <span class=\"highlight\">海外业务</span>：海外收入占比超50%，东南亚和欧洲市场持续扩张<br>• <span class=\"highlight\">产品创新</span>：新一代AI智能家电产品线获市场好评，IoT生态加速落地<br>• <span class=\"highlight\">机构评级</span>：近30天5家机构给予\"增持\"评级，目标价区间35-38元"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>近期重要消息</strong><br><br>• <span class=\"bullish\">利好</span>：公司发布2025年ESG报告，MSCI ESG评级上调至AA级<br>• <span class=\"bullish\">利好</span>：海外订单持续增长，欧洲工厂产能利用率达92%<br>• <span class=\"bearish\">关注</span>：铜、铝等大宗原材料价格近期上涨，可能压缩毛利率<br>• <span class=\"neutral\">中性</span>：房地产市场低迷对白电需求的传导效应需持续关注<br>• <span class=\"bullish\">利好</span>：北向资金今日净买入海尔智家2.3亿元，连续5日增持"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>综合评级：持有（HOLD）</strong><br><br>海尔智家基本面扎实，海外布局领先同业，估值处于合理偏低区间。<span class=\"bullish\">技术面MACD金叉+量价齐升，短期偏多信号明确。</span>但当前股价接近前期压力位32.50元，追高风险较大。<br><br><strong>操作建议：</strong>已持仓者继续持有，止损位设在31.00元。未持仓者建议等回调至31.50-31.80区间分批建仓，目标看35元。仓位建议不超过总资金的10%。"
         }
       ]
     },
     {
-      "name": "人工智能ETF华夏",
-      "code": "515070",
-      "market": "深交所ETF",
-      "price": "1.860",
-      "change": "-0.009",
-      "changePercent": "-0.48",
-      "open": "1.837",
-      "prevClose": "1.869",
-      "high": "1.867",
-      "low": "1.827",
-      "volume": "5608.4万手",
-      "turnover": "1.0亿元",
-      "signal": "持有",
+      "name": "中国平安",
+      "code": "601318",
+      "market": "上交所主板",
+      "price": "52.38",
+      "change": "+0.12",
+      "changePercent": "+0.23",
+      "open": "52.50",
+      "prevClose": "52.26",
+      "high": "52.78",
+      "low": "52.10",
+      "volume": "42.7万手",
+      "turnover": "22.3亿",
+      "pe": "9.15",
+      "marketCap": "9568亿",
+      "signal": "买入",
       "tags": [
-        "深交所ETF"
+        "保险龙头",
+        "低估值",
+        "高股息"
       ],
       "risk": {
-        "value": 50,
-        "level": "中",
-        "color": "var(--yellow)"
+        "value": 25,
+        "level": "低",
+        "color": "#059669"
       },
       "technicalIndicators": [
         {
           "name": "MACD",
-          "value": "待确认",
-          "signal": "neutral"
+          "value": "金叉↑",
+          "signal": "bullish"
         },
         {
           "name": "RSI(14)",
-          "value": "50.0",
+          "value": "55.1",
           "signal": "neutral"
+        },
+        {
+          "name": "布林带",
+          "value": "下轨反弹",
+          "signal": "bullish"
         },
         {
           "name": "KDJ",
-          "value": "中性",
-          "signal": "neutral"
+          "value": "J=65↑",
+          "signal": "bullish"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（515070）</strong><br><br>• 最新价: <span class=\"highlight\">1.860</span><br>• 涨跌额: <span style=\"color:var(--red)\">-0.009</span> (-0.48%)<br>• 今开: 1.837 | 昨收: 1.869<br>• 最高: 1.867 | 最低: 1.827<br>• 成交量: 5608.4万手<br>• 成交额: 1.0亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "03-24",
+          "value": 50.2
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "03-25",
+          "value": 50.85
+        },
+        {
+          "label": "03-26",
+          "value": 51.3
+        },
+        {
+          "label": "03-27",
+          "value": 51.9
+        },
+        {
+          "label": "03-28",
+          "value": 52.26
+        },
+        {
+          "label": "03-30",
+          "value": 52.38,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>趋势判断：底部确认，温和反弹</strong><br><br>• <span class=\"highlight\">MACD</span>：DIF与DEA在零轴下方形成金叉，红柱开始放大，底部反转信号<br>• <span class=\"highlight\">均线系统</span>：5日/10日均线金叉向上，但20日均线仍在下行，中期趋势待确认<br>• <span class=\"highlight\">成交量</span>：连续5个交易日温和放量，资金持续流入<br>• <span class=\"highlight\">支撑/压力</span>：双底颈线52元已突破并回踩确认，第一目标54元，第二目标58元<br>• <span class=\"highlight\">形态</span>：50-54元区间构筑双底形态，右底高于左底，底部结构扎实"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>估值与基本面评估</strong><br><br>• <span class=\"highlight\">PE(TTM)</span>：9.15倍，处于近5年5%分位数，<span class=\"bullish\">历史极端低估区域</span><br>• <span class=\"highlight\">股息率</span>：4.8%，远超10年期国债收益率，<span class=\"bullish\">配置价值突出</span><br>• <span class=\"highlight\">寿险NBV</span>：2025年新业务价值同比增长12%，超市场预期<br>• <span class=\"highlight\">财险COR</span>：综合成本率优化至97.2%，盈利质量提升<br>• <span class=\"highlight\">科技赋能</span>：AI核保理赔效率提升30%，降本增效显著<br>• <span class=\"highlight\">分红</span>：2025年特别分红计划已获董事会通过，累计分红率提升至50%"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>近期重要消息</strong><br><br>• <span class=\"bullish\">利好</span>：管理层在业绩发布会上释放积极信号，强调持续加大股东回报<br>• <span class=\"bullish\">利好</span>：北向资金今日净买入中国平安3.1亿元，为当日净买入第三大个股<br>• <span class=\"neutral\">中性</span>：10年期国债收益率下行至2.25%，对保险投资端形成一定压力<br>• <span class=\"bearish\">关注</span>：利率下行周期对新增保费投资收益的长期影响需持续跟踪<br>• <span class=\"bullish\">利好</span>：国泰君安给予\"增持\"评级，目标价65元，隐含上涨空间24%"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>综合评级：买入（BUY）</strong><br><br>中国平安当前是<span class=\"bullish\">A股最具安全边际的蓝筹标的之一</span>。PE仅9.15倍处于历史底部，股息率4.8%提供坚实防守垫。双底技术形态确认，底部放量信号明确。<br><br><strong>操作建议：</strong>建议在51.50-52.50区间建仓，仓位可提升至15%。止损位设在49.50元（双底颈线下方）。目标价58元（双底量度涨幅），中期目标65元。适合中长线配置，分红再投资效果更佳。"
         }
       ]
     },
     {
-      "name": "小米集团-W",
-      "code": "HK1810",
-      "market": "港交所",
-      "price": "32.380",
-      "change": "-0.620",
-      "changePercent": "-1.88",
-      "open": "32.300",
-      "prevClose": "33.000",
-      "high": "32.620",
-      "low": "32.040",
-      "volume": "1.5亿股",
-      "turnover": "47.2亿港元",
+      "name": "海康威视",
+      "code": "002415",
+      "market": "深交所中小板",
+      "price": "28.56",
+      "change": "-0.34",
+      "changePercent": "-1.18",
+      "open": "28.90",
+      "prevClose": "28.90",
+      "high": "29.10",
+      "low": "28.42",
+      "volume": "65.1万手",
+      "turnover": "18.7亿",
+      "pe": "21.35",
+      "marketCap": "2685亿",
       "signal": "持有",
       "tags": [
-        "港交所"
+        "安防龙头",
+        "AI转型",
+        "政企数字化"
       ],
       "risk": {
-        "value": 50,
-        "level": "中",
-        "color": "var(--yellow)"
+        "value": 55,
+        "level": "中高",
+        "color": "#d97706"
       },
       "technicalIndicators": [
         {
@@ -610,24 +661,253 @@ const DATA = {
         },
         {
           "name": "RSI(14)",
-          "value": "42.0",
+          "value": "42.5",
+          "signal": "neutral"
+        },
+        {
+          "name": "布林带",
+          "value": "中轨下方",
           "signal": "bearish"
         },
         {
           "name": "KDJ",
-          "value": "中性",
-          "signal": "neutral"
+          "value": "J=28↓",
+          "signal": "bearish"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（HK1810）</strong><br><br>• 最新价: <span class=\"highlight\">32.380</span><br>• 涨跌额: <span style=\"color:var(--red)\">-0.620</span> (-1.88%)<br>• 今开: 32.300 | 昨收: 33.000<br>• 最高: 32.620 | 最低: 32.040<br>• 成交量: 1.5亿股<br>• 成交额: 47.2亿港元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "03-24",
+          "value": 29.35
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "03-25",
+          "value": 29.1
+        },
+        {
+          "label": "03-26",
+          "value": 29.45
+        },
+        {
+          "label": "03-27",
+          "value": 29
+        },
+        {
+          "label": "03-28",
+          "value": 28.9
+        },
+        {
+          "label": "03-30",
+          "value": 28.56,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>趋势判断：短期承压，关注支撑</strong><br><br>• <span class=\"highlight\">MACD</span>：DIF下穿DEA形成死叉，绿柱放大，短期动能偏空<br>• <span class=\"highlight\">均线系统</span>：5日/10日均线死叉向下，20日均线走平，短期方向不明<br>• <span class=\"highlight\">成交量</span>：今日缩量下跌，成交较前日减少约15%，抛压并不沉重<br>• <span class=\"highlight\">支撑/压力</span>：强支撑28.00（前期多次验证），第二支撑27.50；反弹压力29.50（20日均线）<br>• <span class=\"highlight\">形态</span>：在28-30元箱体内震荡，布林带收窄后选择向下突破，需等待企稳信号"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>估值与基本面评估</strong><br><br>• <span class=\"highlight\">PE(TTM)</span>：21.35倍，处于近3年45%分位数，估值中枢水平<br>• <span class=\"highlight\">创新业务</span>：汽车电子、机器人、存储等创新业务收入占比提升至28%，转型初见成效<br>• <span class=\"highlight\">Q1预告</span>：净利润同比增长5-10%，略低于市场预期的12%，短期承压<br>• <span class=\"highlight\">海外业务</span>：受地缘政治因素影响，海外收入增速放缓至5%<br>• <span class=\"highlight\">毛利率</span>：稳定在44%左右，产品结构优化对冲了价格竞争压力"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>近期重要消息</strong><br><br>• <span class=\"bearish\">利空</span>：美国商务部将部分中国AI企业列入实体清单，市场担忧海康可能受波及<br>• <span class=\"neutral\">中性</span>：公司回应称业务运营正常，未受到实质性影响<br>• <span class=\"bullish\">利好</span>：国内智慧城市和政企数字化转型项目招标加快，订单储备充足<br>• <span class=\"bullish\">利好</span>：海康机器人业务获得汽车行业大单，汽车电子收入同比增长35%<br>• <span class=\"neutral\">中性</span>：北向资金今日净卖出0.8亿元，但近5日仍为净流入状态"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>综合评级：持有（HOLD）→ 等待右侧信号</strong><br><br>海康短期技术面偏空，布林带向下突破+MACD死叉，不建议在当前位置加仓。<span class=\"bearish\">但28元是强支撑位，历史上多次有效。</span>如能在28元附近缩量企稳，将是较好的加仓机会。<br><br><strong>操作建议：</strong>已持仓者继续持有，止损位设在27.40元。未持仓者<span class=\"highlight\">建议等待以下任一右侧信号出现后介入</span>：①放量站上29.50元；②MACD重新金叉；③北向资金连续3日净买入。目标看31元。仓位控制在8%以内。"
+        }
+      ]
+    },
+    {
+      "name": "小米集团",
+      "code": "HK1810",
+      "market": "港交所",
+      "price": "52.80",
+      "change": "+1.40",
+      "changePercent": "+2.72",
+      "open": "51.40",
+      "prevClose": "51.40",
+      "high": "53.20",
+      "low": "51.20",
+      "volume": "1.82亿股",
+      "turnover": "95.6亿港元",
+      "pe": "28.50",
+      "marketCap": "13,142亿港元",
+      "signal": "买入",
+      "tags": [
+        "消费电子",
+        "新能源汽车",
+        "AIoT",
+        "港股通标的"
+      ],
+      "risk": {
+        "value": 50,
+        "level": "中",
+        "color": "#d97706"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "63.8",
+          "signal": "neutral"
+        },
+        {
+          "name": "布林带",
+          "value": "上轨附近",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "J=78↑",
+          "signal": "bullish"
+        }
+      ],
+      "trend": [
+        {
+          "label": "03-24",
+          "value": 49.5
+        },
+        {
+          "label": "03-25",
+          "value": 50.2
+        },
+        {
+          "label": "03-26",
+          "value": 49.8
+        },
+        {
+          "label": "03-27",
+          "value": 50.6
+        },
+        {
+          "label": "03-28",
+          "value": 51.4
+        },
+        {
+          "label": "03-30",
+          "value": 52.8,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>趋势判断：强势突破，多头主导</strong><br><br>• <span class=\"highlight\">MACD</span>：DIF加速上穿DEA，红柱持续放大，动能强劲<br>• <span class=\"highlight\">均线系统</span>：5/10/20日均线多头排列发散向上，趋势明确<br>• <span class=\"highlight\">成交量</span>：今日成交95.6亿港元，较5日均量放大60%，资金抢筹明显<br>• <span class=\"highlight\">支撑/压力</span>：支撑51.40（前高转支撑），强支撑50.00；压力位54.00（心理关口）<br>• <span class=\"highlight\">形态</span>：突破50-51元盘整区间，量价齐升，打开上行空间"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>估值与基本面评估</strong><br><br>• <span class=\"highlight\">PE(TTM)</span>：28.50倍，高于历史中位数，但考虑到新能源和AI业务增长溢价合理<br>• <span class=\"highlight\">汽车业务</span>：SU7系列月交付量突破2万台，2025年目标30万台，进展顺利<br>• <span class=\"highlight\">手机业务</span>：全球市占率稳居第三，高端化战略初见成效<br>• <span class=\"highlight\">AIoT生态</span>：连接设备超8亿台，MIUI月活6亿+，生态护城河深厚<br>• <span class=\"highlight\">盈利能力</span>：2025年Q4净利润同比增长35%，经调整净利率创新高"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>近期重要消息</strong><br><br>• <span class=\"bullish\">利好</span>：SU7 Ultra正式交付，盲订超10万台，市场反响火爆<br>• <span class=\"bullish\">利好</span>：小米自研芯片取得突破，澎湃OS系统装机量突破3亿<br>• <span class=\"bullish\">利好</span>：南向资金连续5日净买入小米，累计超30亿港元<br>• <span class=\"neutral\">中性</span>：智能手机全球市场趋于饱和，增量依赖新兴市场开拓<br>• <span class=\"bearish\">关注</span>：港股受美联储降息预期波动影响较大，需关注外资流向"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>综合评级：买入（BUY）</strong><br><br>小米处于<span class=\"bullish\">消费电子+新能源汽车+AIoT三驾马车共振向上</span>的阶段。汽车业务从0到1的突破为估值提供了全新增长引擎。南向资金持续增持，技术面强势突破。<br><br><strong>操作建议：</strong>建议在51-52元区间建仓，仓位控制在12%。止损设在49.50元（20日均线）。短期目标55元，中期目标60元。港股通标的，需考虑汇率波动影响。"
+        }
+      ]
+    },
+    {
+      "name": "人工智能ETF",
+      "code": "515070",
+      "market": "深交所ETF",
+      "price": "1.258",
+      "change": "+0.028",
+      "changePercent": "+2.27",
+      "open": "1.230",
+      "prevClose": "1.230",
+      "high": "1.265",
+      "low": "1.225",
+      "volume": "18.6亿",
+      "turnover": "23.2亿",
+      "pe": "--",
+      "marketCap": "562亿",
+      "signal": "买入",
+      "tags": [
+        "ETF",
+        "AI板块",
+        "被动指数",
+        "分散风险"
+      ],
+      "risk": {
+        "value": 45,
+        "level": "中",
+        "color": "#d97706"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "61.2",
+          "signal": "neutral"
+        },
+        {
+          "name": "布林带",
+          "value": "中轨上方",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "J=70↑",
+          "signal": "bullish"
+        }
+      ],
+      "trend": [
+        {
+          "label": "03-24",
+          "value": 1.195
+        },
+        {
+          "label": "03-25",
+          "value": 1.21
+        },
+        {
+          "label": "03-26",
+          "value": 1.198
+        },
+        {
+          "label": "03-27",
+          "value": 1.22
+        },
+        {
+          "label": "03-28",
+          "value": 1.23
+        },
+        {
+          "label": "03-30",
+          "value": 1.258,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>趋势判断：底部反弹，量能配合</strong><br><br>• <span class=\"highlight\">MACD</span>：金叉形成，DIF向上发散，红柱放大<br>• <span class=\"highlight\">均线系统</span>：5日/10日均线金叉，ETF价格站上20日均线<br>• <span class=\"highlight\">成交量</span>：成交23.2亿元，较前期放大明显，资金大幅流入AI板块<br>• <span class=\"highlight\">支撑/压力</span>：支撑1.230（前平台），强支撑1.195；压力1.280（前高），突破后看1.350"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>ETF成分与板块分析</strong><br><br>• <span class=\"highlight\">跟踪指数</span>：中证人工智能主题指数，涵盖AI全产业链<br>• <span class=\"highlight\">前十大持仓</span>：海康威视、科大讯飞、中科曙光、寒武纪、浪潮信息等<br>• <span class=\"highlight\">行业分布</span>：算力硬件35%、AI应用25%、数据服务20%、AI芯片20%<br>• <span class=\"highlight\">板块催化</span>：国务院AI产业政策+大模型持续迭代+应用场景加速落地<br>• <span class=\"highlight\">资金流向</span>：本月净申购超15亿份，场内溢价率收窄至0.3%"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>AI板块近期动态</strong><br><br>• <span class=\"bullish\">利好</span>：国务院发布AI产业规划，万亿市场空间催化板块估值修复<br>• <span class=\"bullish\">利好</span>：多只AI应用公司财报超预期，商业化进程加速<br>• <span class=\"neutral\">中性</span>：量化交易监管趋严可能短期影响AI量化标的的交易活跃度<br>• <span class=\"bullish\">利好</span>：全球AI军备竞赛持续，算力需求维持高景气<br>• <span class=\"neutral\">中性</span>：板块整体PE(TTM)约45倍，处于近2年中位数水平"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>综合评级：买入（BUY）</strong><br><br>AIETF是<span class=\"bullish\">参与AI板块行情的最优工具</span>，避免了个股暴雷风险，同时享受板块整体上涨红利。当前政策面+基本面+资金面三重共振，板块处于新一轮上涨周期的起点。<br><br><strong>操作建议：</strong>建议在1.23-1.26区间分批建仓，仓位可提升至20%（作为核心配置）。止损设在1.18元。短期目标1.35元，中期目标1.50元。<span class=\"highlight\">定投策略更优</span>：每周定投5000元，长期持有。"
         }
       ]
     }
@@ -675,7 +955,7 @@ function renderNews(news) {
 // Fund Flow
 function renderFundFlow(flow) {
   const el = document.getElementById('fundFlow');
-  if (!flow || flow.length === 0) { el.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">暂无数据</p>'; return; }
+  if (!flow || flow.length === 0) { el.innerHTML = '<p style="color:#94a3b8;text-align:center;padding:20px">暂无数据</p>'; return; }
   el.innerHTML = flow.map(f => `
     <div class="flow-item">
       <div class="f-label">${f.label}</div>
@@ -689,7 +969,7 @@ function renderFundFlow(flow) {
 function renderChart(points, color) {
   const w=600, h=200, pad={top:20,right:20,bottom:30,left:50};
   const cw=w-pad.left-pad.right, ch=h-pad.top-pad.bottom;
-  if (!points||points.length<2) return '<p style="color:var(--text-muted);text-align:center;padding:30px 0">暂无走势数据</p>';
+  if (!points||points.length<2) return '<p style="color:#94a3b8;text-align:center;padding:30px 0">暂无走势数据</p>';
   const vals=points.map(p=>p.value);
   const min=Math.min(...vals)*0.998, max=Math.max(...vals)*1.002, range=max-min||1;
   const sx=i=>pad.left+(i/(points.length-1))*cw, sy=v=>pad.top+ch-((v-min)/range)*ch;
@@ -727,9 +1007,9 @@ function renderWatchlist(items) {
 function renderFocusStocks(stocks) {
   const container = document.getElementById('focusStocks');
   container.innerHTML = (stocks || []).map((s, idx) => {
-    const cc = s.changePercent > 0 ? 'var(--green)' : s.changePercent < 0 ? 'var(--red)' : 'var(--yellow)';
+    const cc = s.changePercent > 0 ? '#059669' : s.changePercent < 0 ? '#dc2626' : '#d97706';
     const sign = s.changePercent > 0 ? '+' : '';
-    const chartColor = s.changePercent > 0 ? 'var(--green)' : s.changePercent < 0 ? 'var(--red)' : 'var(--yellow)';
+    const chartColor = s.changePercent > 0 ? '#059669' : s.changePercent < 0 ? '#dc2626' : '#d97706';
     
     const techTags = (s.technicalIndicators || []).map(t => {
       const cls = t.signal === 'bullish' ? 'tech-bullish' : t.signal === 'bearish' ? 'tech-bearish' : 'tech-neutral';
@@ -759,8 +1039,8 @@ function renderFocusStocks(stocks) {
       <div style="margin-top:12px">
         <div class="risk-gauge">
           <span class="gauge-label">风险等级</span>
-          <div class="gauge-bar"><div class="gauge-fill" style="width:${s.risk.value}%;background:${s.risk.color||'var(--yellow)'}"></div></div>
-          <span class="gauge-value" style="color:${s.risk.color||'var(--yellow)'}">${s.risk.level}</span>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:${s.risk.value}%;background:${s.risk.color||'#d97706'}"></div></div>
+          <span class="gauge-value" style="color:${s.risk.color||'#d97706'}">${s.risk.level}</span>
         </div>
       </div>
     ` : '';
@@ -779,8 +1059,8 @@ function renderFocusStocks(stocks) {
       </div>
       <div class="metrics-grid">
         <div class="metric-box"><div class="mb-label">今开</div><div class="mb-value">${s.open||'--'}</div></div>
-        <div class="metric-box"><div class="mb-label">最高</div><div class="mb-value" style="color:${s.high>s.prevClose?'var(--green)':''}">${s.high||'--'}</div></div>
-        <div class="metric-box"><div class="mb-label">最低</div><div class="mb-value" style="color:${s.low<s.prevClose?'var(--red)':''}">${s.low||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">最高</div><div class="mb-value" style="color:${s.high>s.prevClose?'#059669':''}">${s.high||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">最低</div><div class="mb-value" style="color:${s.low<s.prevClose?'#dc2626':''}">${s.low||'--'}</div></div>
         <div class="metric-box"><div class="mb-label">昨收</div><div class="mb-value">${s.prevClose||'--'}</div></div>
         <div class="metric-box"><div class="mb-label">成交量</div><div class="mb-value">${s.volume||'--'}</div></div>
         <div class="metric-box"><div class="mb-label">成交额</div><div class="mb-value">${s.turnover||'--'}</div></div>
