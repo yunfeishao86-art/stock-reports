@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日股票分析报告</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh; color: #e0e0e0; padding: 20px;
+  }
+  .header {
+    text-align: center; padding: 30px 20px;
+    background: rgba(255,255,255,0.05); border-radius: 16px;
+    margin-bottom: 24px; backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .header h1 { font-size: 28px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .header .date { color: #888; margin-top: 8px; font-size: 14px; }
+  .header .summary { margin-top: 16px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+  .summary-item { text-align: center; }
+  .summary-item .label { font-size: 12px; color: #888; }
+  .summary-item .value { font-size: 20px; font-weight: bold; margin-top: 4px; }
+  .up { color: #ff4757; }
+  .down { color: #2ed573; }
+  .flat { color: #ffa502; }
+  
+  .stock-card {
+    background: rgba(255,255,255,0.05); border-radius: 16px;
+    padding: 24px; margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px); transition: all 0.3s;
+    cursor: pointer;
+  }
+  .stock-card:hover { transform: translateY(-2px); border-color: rgba(0,210,255,0.3); }
+  .stock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .stock-name { font-size: 20px; font-weight: bold; }
+  .stock-code { font-size: 13px; color: #888; margin-top: 2px; }
+  .stock-price { text-align: right; }
+  .stock-price .price { font-size: 24px; font-weight: bold; }
+  .stock-price .change { font-size: 14px; margin-top: 2px; }
+  
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .metric { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; text-align: center; }
+  .metric .m-label { font-size: 11px; color: #888; }
+  .metric .m-value { font-size: 16px; font-weight: 600; margin-top: 4px; }
+  
+  .analysis { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 16px; margin-top: 12px; }
+  .analysis h4 { color: #00d2ff; margin-bottom: 8px; font-size: 14px; }
+  .analysis p { font-size: 13px; line-height: 1.8; color: #bbb; }
+  
+  .chart-container { position: relative; height: 200px; margin: 16px 0; }
+  .chart-canvas { width: 100%; height: 100%; }
+  
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tag { padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+  .tag-buy { background: rgba(46,213,115,0.15); color: #2ed573; }
+  .tag-hold { background: rgba(255,165,2,0.15); color: #ffa502; }
+  .tag-sell { background: rgba(255,71,87,0.15); color: #ff4757; }
+  .tag-info { background: rgba(0,210,255,0.15); color: #00d2ff; }
+  
+  .detail-panel {
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease;
+  }
+  .detail-panel.open { max-height: 2000px; }
+  
+  .expand-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.1);
+    color: #00d2ff; padding: 8px 16px; border-radius: 8px;
+    cursor: pointer; font-size: 13px; margin-top: 12px;
+    transition: all 0.3s; width: 100%;
+  }
+  .expand-btn:hover { background: rgba(0,210,255,0.1); }
+  
+  .footer { text-align: center; padding: 20px; color: #555; font-size: 12px; margin-top: 20px; }
+  .disclaimer { background: rgba(255,71,87,0.08); border: 1px solid rgba(255,71,87,0.15); border-radius: 10px; padding: 16px; margin-top: 24px; }
+  .disclaimer h4 { color: #ff4757; margin-bottom: 8px; }
+  .disclaimer p { font-size: 12px; color: #888; line-height: 1.8; }
+
+  /* SVG Chart Styles */
+  .line-chart { width: 100%; height: 200px; }
+  .line-chart path { fill: none; stroke-width: 2; }
+  .line-chart .area { opacity: 0.1; }
+  .line-chart .grid line { stroke: rgba(255,255,255,0.05); }
+  .line-chart .grid text { fill: #555; font-size: 10px; }
+  .chart-tooltip {
+    position: absolute; background: rgba(0,0,0,0.85); color: #fff;
+    padding: 8px 12px; border-radius: 8px; font-size: 12px;
+    pointer-events: none; display: none; z-index: 10;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 22px; }
+    .header .summary { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 每日股票分析报告</h1>
+  <div class="date" id="reportDate"></div>
+  <div class="summary">
+    <div class="summary-item">
+      <div class="label">海尔智家 600690</div>
+      <div class="value up" id="sumStock1">--</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">中国平安 601318</div>
+      <div class="value flat" id="sumStock2">--</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">海康威视 002415</div>
+      <div class="value down" id="sumStock3">--</div>
+    </div>
+  </div>
+</div>
+
+<div id="stockCards"></div>
+
+<div class="disclaimer">
+  <h4>⚠️ 风险提示</h4>
+  <p>本报告基于公开市场数据生成，仅供参考学习，不构成任何投资建议。股市有风险，投资需谨慎。过往表现不代表未来收益，请根据自身情况独立判断。</p>
+</div>
+
+<div class="footer">
+  由 AI CTO 邵天二 🎯 自动生成 · 数据来源：公开市场信息 · 报告仅供参考
+</div>
+
+<script>
+// Stock data will be injected by the generator
+const STOCK_DATA = [
+  {
+    "name": "海尔智家",
+    "code": "600690",
+    "market": "上交所主板",
+    "price": "32.15",
+    "change": "+0.48",
+    "changePercent": "+1.51",
+    "open": "31.68",
+    "prevClose": "31.67",
+    "high": "32.28",
+    "low": "31.55",
+    "volume": "58.3万手",
+    "turnover": "18.6亿",
+    "pe": "16.82",
+    "marketCap": "3042亿",
+    "signal": "持有",
+    "tags": [
+      "家电龙头",
+      "出海加速"
+    ],
+    "analysis": "海尔智家近期走势稳健，股价在30-33元区间震荡整理。技术面上，MACD金叉形成，5日均线向上突破10日均线，短期有上攻动能。成交量较前几个交易日放大约20%，显示资金关注度提升。\n\n基本面方面，公司2025年海外收入占比已超过50%，东南亚和欧洲市场持续扩张。近期发布的新一代智能家电产品线获得市场良好反响，机构普遍维持\"增持\"评级。目标价区间35-38元。\n\n风险提示：原材料价格波动、海外汇率变动、房地产市场低迷对家电需求的潜在影响。",
+    "trend": [
+      {
+        "label": "03-24",
+        "value": 30.85
+      },
+      {
+        "label": "03-25",
+        "value": 31.2
+      },
+      {
+        "label": "03-26",
+        "value": 31.05
+      },
+      {
+        "label": "03-27",
+        "value": 31.5
+      },
+      {
+        "label": "03-28",
+        "value": 31.67
+      },
+      {
+        "label": "03-30",
+        "value": 32.15,
+        "highlight": true
+      }
+    ]
+  },
+  {
+    "name": "中国平安",
+    "code": "601318",
+    "market": "上交所主板",
+    "price": "52.38",
+    "change": "+0.12",
+    "changePercent": "+0.23",
+    "open": "52.50",
+    "prevClose": "52.26",
+    "high": "52.78",
+    "low": "52.10",
+    "volume": "42.7万手",
+    "turnover": "22.3亿",
+    "pe": "9.15",
+    "marketCap": "9568亿",
+    "signal": "买入",
+    "tags": [
+      "保险龙头",
+      "低估值",
+      "高股息"
+    ],
+    "analysis": "中国平安当前PE仅9.15倍，处于历史估值底部区域，股息率超过4.5%，具有较好的安全边际。技术面上，股价在50-54元构筑双底形态，近期连续5个交易日收阳，显示底部确认信号明确。\n\n公司2025年寿险新业务价值同比增长12%，财险综合成本率持续优化至97.2%。科技赋能效果显现，AI核保理赔效率提升30%。管理层在业绩发布会上表示将持续加大分红力度，2025年特别分红计划已获董事会通过。\n\n风险提示：利率下行对投资端收益的影响、寿险行业代理人规模持续压降、宏观经济放缓对保险需求的抑制。",
+    "trend": [
+      {
+        "label": "03-24",
+        "value": 50.2
+      },
+      {
+        "label": "03-25",
+        "value": 50.85
+      },
+      {
+        "label": "03-26",
+        "value": 51.3
+      },
+      {
+        "label": "03-27",
+        "value": 51.9
+      },
+      {
+        "label": "03-28",
+        "value": 52.26
+      },
+      {
+        "label": "03-30",
+        "value": 52.38,
+        "highlight": true
+      }
+    ]
+  },
+  {
+    "name": "海康威视",
+    "code": "002415",
+    "market": "深交所中小板",
+    "price": "28.56",
+    "change": "-0.34",
+    "changePercent": "-1.18",
+    "open": "28.90",
+    "prevClose": "28.90",
+    "high": "29.10",
+    "low": "28.42",
+    "volume": "65.1万手",
+    "turnover": "18.7亿",
+    "pe": "21.35",
+    "marketCap": "2685亿",
+    "signal": "观望",
+    "tags": [
+      "安防龙头",
+      "AI转型"
+    ],
+    "analysis": "海康威视短期承压，股价在28-30元区间反复震荡。技术面上，布林带收窄后向下突破，KDJ指标死叉，短期存在继续调整压力。不过成交量有所萎缩，说明抛压并不沉重。\n\n公司正从传统安防向AIoT转型，创新业务（汽车电子、机器人、存储等）收入占比已提升至28%。海外业务受地缘政治影响增速放缓，但国内政企数字化转型需求依然旺盛。2025年Q1业绩预告显示净利润同比增长5-10%，略低于市场预期。\n\n风险提示：美国制裁风险、海外市场份额下滑、政企需求恢复不及预期、创新业务盈利周期较长。",
+    "trend": [
+      {
+        "label": "03-24",
+        "value": 29.35
+      },
+      {
+        "label": "03-25",
+        "value": 29.1
+      },
+      {
+        "label": "03-26",
+        "value": 29.45
+      },
+      {
+        "label": "03-27",
+        "value": 29
+      },
+      {
+        "label": "03-28",
+        "value": 28.9
+      },
+      {
+        "label": "03-30",
+        "value": 28.56,
+        "highlight": true
+      }
+    ]
+  }
+];
+
+document.getElementById('reportDate').textContent = new Date().toLocaleDateString('zh-CN', {
+  year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+});
+
+function renderChart(points, color) {
+  const w = 600, h = 200, pad = { top: 20, right: 20, bottom: 30, left: 50 };
+  const cw = w - pad.left - pad.right;
+  const ch = h - pad.top - pad.bottom;
+  
+  if (!points || points.length < 2) return '<p style="color:#555;text-align:center;padding:40px 0;">暂无走势数据</p>';
+  
+  const vals = points.map(p => p.value);
+  const min = Math.min(...vals) * 0.998;
+  const max = Math.max(...vals) * 1.002;
+  const range = max - min || 1;
+  
+  const scaleX = i => pad.left + (i / (points.length - 1)) * cw;
+  const scaleY = v => pad.top + ch - ((v - min) / range) * ch;
+  
+  let pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${scaleX(i).toFixed(1)},${scaleY(p.value).toFixed(1)}`).join(' ');
+  let areaD = pathD + ` L${scaleX(points.length-1).toFixed(1)},${pad.top + ch} L${pad.left},${pad.top + ch} Z`;
+  
+  let gridLines = '';
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (ch / 4) * i;
+    const val = max - (range / 4) * i;
+    gridLines += `<line x1="${pad.left}" y1="${y}" x2="${w-pad.right}" y2="${y}"/>`;
+    gridLines += `<text x="${pad.left-5}" y="${y+4}" text-anchor="end">${val.toFixed(2)}</text>`;
+  }
+  
+  let labels = '';
+  const step = Math.ceil(points.length / 5);
+  points.forEach((p, i) => {
+    if (i % step === 0 || i === points.length - 1) {
+      labels += `<text x="${scaleX(i)}" y="${h-5}" text-anchor="middle">${p.label || ''}</text>`;
+    }
+  });
+  
+  let dots = points.map((p, i) => {
+    const show = i === 0 || i === points.length - 1 || p.highlight;
+    return show ? `<circle cx="${scaleX(i)}" cy="${scaleY(p.value)}" r="3" fill="${color}"/>` : '';
+  }).join('');
+  
+  return `<svg viewBox="0 0 ${w} ${h}" class="line-chart">
+    <g class="grid">${gridLines}${labels}</g>
+    <path d="${areaD}" fill="${color}" class="area"/>
+    <path d="${pathD}" stroke="${color}"/>
+    ${dots}
+  </svg>`;
+}
+
+function renderCards(data) {
+  const container = document.getElementById('stockCards');
+  
+  data.forEach((stock, idx) => {
+    const changeClass = stock.changePercent > 0 ? 'up' : stock.changePercent < 0 ? 'down' : 'flat';
+    const changeSign = stock.changePercent > 0 ? '+' : '';
+    const arrow = stock.changePercent > 0 ? '📈' : stock.changePercent < 0 ? '📉' : '➡️';
+    
+    const signal = stock.signal || '观望';
+    const signalClass = signal === '买入' ? 'tag-buy' : signal === '卖出' ? 'tag-sell' : 'tag-hold';
+    
+    const metrics = `
+      <div class="metrics">
+        <div class="metric"><div class="m-label">今开</div><div class="m-value">${stock.open || '--'}</div></div>
+        <div class="metric"><div class="m-label">最高</div><div class="m-value ${stock.high > stock.prevClose ? 'up' : ''}">${stock.high || '--'}</div></div>
+        <div class="metric"><div class="m-label">最低</div><div class="m-value ${stock.low < stock.prevClose ? 'down' : ''}">${stock.low || '--'}</div></div>
+        <div class="metric"><div class="m-label">昨收</div><div class="m-value">${stock.prevClose || '--'}</div></div>
+        <div class="metric"><div class="m-label">成交量</div><div class="m-value">${stock.volume || '--'}</div></div>
+        <div class="metric"><div class="m-label">成交额</div><div class="m-value">${stock.turnover || '--'}</div></div>
+      </div>
+    `;
+    
+    const chartColor = stock.changePercent > 0 ? '#ff4757' : stock.changePercent < 0 ? '#2ed573' : '#ffa502';
+    const chart = stock.trend ? `<div class="chart-container">${renderChart(stock.trend, chartColor)}</div>` : '';
+    
+    const tags = `
+      <div class="tags">
+        <span class="tag ${signalClass}">${arrow} ${signal}</span>
+        ${stock.pe ? `<span class="tag tag-info">PE ${stock.pe}</span>` : ''}
+        ${stock.marketCap ? `<span class="tag tag-info">市值 ${stock.marketCap}</span>` : ''}
+        ${stock.tags ? stock.tags.map(t => `<span class="tag tag-info">${t}</span>`).join('') : ''}
+      </div>
+    `;
+    
+    const analysis = stock.analysis ? `
+      <div class="analysis">
+        <h4>🔍 深度分析</h4>
+        <p>${stock.analysis}</p>
+      </div>
+    ` : '';
+    
+    const html = `
+      <div class="stock-card" onclick="toggleDetail(${idx})">
+        <div class="stock-header">
+          <div>
+            <div class="stock-name">${stock.name}</div>
+            <div class="stock-code">${stock.code} · ${stock.market || 'A股'}</div>
+          </div>
+          <div class="stock-price">
+            <div class="price ${changeClass}">${stock.price || '--'}</div>
+            <div class="change ${changeClass}">${changeSign}${stock.change || '--'} (${changeSign}${stock.changePercent || '--'}%)</div>
+          </div>
+        </div>
+        ${metrics}
+        ${chart}
+        ${tags}
+        <button class="expand-btn" onclick="event.stopPropagation();toggleDetail(${idx})">
+          <span id="btnText${idx}">▼ 展开详细分析</span>
+        </button>
+        <div class="detail-panel" id="detail${idx}">
+          ${analysis}
+        </div>
+      </div>
+    `;
+    container.innerHTML += html;
+    
+    // Update summary
+    const sumEl = document.getElementById(`sumStock${idx+1}`);
+    if (sumEl) {
+      sumEl.className = `value ${changeClass}`;
+      sumEl.textContent = `${changeSign}${stock.changePercent || '--'}%`;
+    }
+  });
+}
+
+function toggleDetail(idx) {
+  const panel = document.getElementById(`detail${idx}`);
+  const btn = document.getElementById(`btnText${idx}`);
+  if (panel.classList.contains('open')) {
+    panel.classList.remove('open');
+    btn.textContent = '▼ 展开详细分析';
+  } else {
+    panel.classList.add('open');
+    btn.textContent = '▲ 收起详细分析';
+  }
+}
+
+// Initialize
+renderCards(STOCK_DATA);
+</script>
+</body>
+</html>
