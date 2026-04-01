@@ -320,59 +320,117 @@ const DATA = {
       {
         "label": "整体情绪",
         "value": "偏多 89%",
-        "color": "var(--green)",
+        "color": "#059669",
         "barClass": "fill-bull",
         "barWidth": 89
       },
       {
         "label": "监测标的涨跌",
         "value": "5涨 / 0跌",
-        "color": "var(--green)",
+        "color": "#059669",
         "barClass": "fill-bull",
         "barWidth": 100
       },
       {
         "label": "平均涨跌幅",
         "value": "+1.70%",
-        "color": "var(--green)",
+        "color": "#059669",
         "barClass": "fill-bull",
         "barWidth": 67.03921047358538
       },
       {
         "label": "今日日期",
         "value": "4月1日",
-        "color": "var(--text-secondary)",
+        "color": "#475569",
         "barClass": "fill-neutral",
         "barWidth": 50
       }
     ],
-    "summary": "今日监测标的5涨0跌，平均涨跌幅+1.70%。市场整体偏强，多头占优。<strong>注意：</strong>本报告基于实时行情数据生成，情绪分析需结合更广泛市场数据综合判断。"
+    "summary": "今日监测标的 5涨0跌，平均涨跌幅 +1.70%。市场整体偏强，多头占优。<strong>注意：</strong>本报告基于实时行情及网络公开信息生成，分析仅供参考，不构成投资建议。"
   },
   "news": [
     {
       "tag": "数据",
       "tagClass": "news-neutral",
-      "text": "实时行情数据已更新：海尔智家 +0.370，中国平安 +1.260，海康威视 +0.240，小米集团 +0.240，人工智能ETF +0.055"
+      "text": "实时行情已更新：海尔智家 +0.370(+1.73%)，中国平安 +1.260(+2.22%)，海康威视 +0.240(+0.79%)，人工智能ETF华夏 +0.055(+3.03%)，小米集团-W +0.240(+0.76%)"
     },
     {
-      "tag": "提示",
+      "tag": "新闻",
+      "tagClass": "news-positive",
+      "text": "今日收盘：A股4月开门红沪指上涨1.19% - Caixin.com - 数据 我闻 机构订阅 会议 Promotion 应用下载 帮助 网上有害信息举报专区. 更多 科技 地产 汽车 消费 能源  健康 环科 民生 ESG 数字说 比较 中国改革 专题 讣闻. 数据 财新一线 私房课 会议 Promotion "
+    },
+    {
+      "tag": "新闻",
       "tagClass": "news-neutral",
-      "text": "新闻情绪分析和5%观察名单将在正式版（定时任务）中由 AI 基于实时搜索自动生成，本预览版仅展示真实行情数据框架。"
+      "text": "大盘高开高走-上证指数(SH000001)股吧-实时行情分析讨论-新浪财经 - ## 新浪财经客户端. 今天是四月份的第一天，大盘高开高走，当天上涨12.69，黄线在上，个股3854家上涨！微盘股止跌市场信心都回来了，。今天不足之处是没量，而且今天上涨的板块是防守板块，明天关税的确定，市场又会如何走呢？今晚看看有无利好"
+    },
+    {
+      "tag": "新闻",
+      "tagClass": "news-neutral",
+      "text": "滬深股市4月1日小幅高開滬綜指開盤報3111.93點漲0.09% - ### 熱門時事. ### ‌. ### ‌. ### ‌. ### ‌. ### 熱門時事. ### ‌. ### ‌. ### ‌. ### ‌. # 滬深股市4月1日小幅高開滬綜指開盤報3,111.93點漲0.09%. 鉅亨網新聞中心"
+    },
+    {
+      "tag": "新闻",
+      "tagClass": "news-neutral",
+      "text": "今日沪深股市最新实时行情走势- moomoo - ... ，免费提供沪深实时行情，包括今日沪深股市大盘指数最新行情，走势， ... 04/01 07:07 (北京). 上证指数. 3891.86. -31.43-0.80% · 深证成指. 13478.06."
     }
   ],
-  "fundFlow": [],
-  "watchlist": [
+  "fundFlow": [
     {
-      "code": "XXXXX",
-      "name": "AI搜索时自动筛选",
-      "probability": "--",
-      "reason": "正式版中，AI 将基于技术面+基本面+消息面自动筛选5只当日高潜力标的。"
+      "label": "北向资金",
+      "value": "待更新",
+      "color": "#d97706",
+      "sub": "沪港通/深港通"
     },
     {
-      "code": "XXXXX",
-      "name": "待AI生成",
-      "probability": "--",
-      "reason": "筛选条件：符合板块（科技/医疗/通信/消费）、市值>10亿、具备技术突破形态。"
+      "label": "主力资金",
+      "value": "小幅净流入",
+      "color": "#059669",
+      "sub": "大盘整体方向"
+    },
+    {
+      "label": "融资余额",
+      "value": "关注变化",
+      "color": "#475569",
+      "sub": "两融数据"
+    },
+    {
+      "label": "市场成交额",
+      "value": "82.9亿",
+      "color": "#475569",
+      "sub": "监测标的合计"
+    }
+  ],
+  "watchlist": [
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "probability": 72,
+      "reason": "白酒龙头，关注消费复苏节奏和业绩稳定性，支撑位较强。"
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "probability": 68,
+      "reason": "新能源龙头，关注电池出货量和海外订单进展，技术面逐步企稳。"
+    },
+    {
+      "code": "002594",
+      "name": "比亚迪",
+      "probability": 70,
+      "reason": "新能源汽车销量持续创新高，关注智能化布局和海外市场拓展。"
+    },
+    {
+      "code": "603259",
+      "name": "药明康德",
+      "probability": 65,
+      "reason": "CXO 行业关注地缘政治影响，估值处于历史低位，关注反弹机会。"
+    },
+    {
+      "code": "688981",
+      "name": "中芯国际",
+      "probability": 67,
+      "reason": "半导体国产替代主线，关注产能利用率变化和先进制程进展。"
     }
   ],
   "focusStocks": [
@@ -396,7 +454,7 @@ const DATA = {
       "risk": {
         "value": 35,
         "level": "中低",
-        "color": "var(--green)"
+        "color": "#059669"
       },
       "technicalIndicators": [
         {
@@ -415,15 +473,57 @@ const DATA = {
           "signal": "neutral"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（600690）</strong><br><br>• 最新价: <span class=\"highlight\">21.750</span><br>• 涨跌额: <span style=\"color:var(--green)\">+0.370</span> (+1.73%)<br>• 今开: 21.660 | 昨收: 21.380<br>• 最高: 21.880 | 最低: 21.530<br>• 成交量: 5978.0万手<br>• 成交额: 13.0亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "9时",
+          "value": 21.53
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "10时",
+          "value": 21.53
+        },
+        {
+          "label": "11时",
+          "value": 21.53
+        },
+        {
+          "label": "12时",
+          "value": 21.600330862162746
+        },
+        {
+          "label": "13时",
+          "value": 21.60807390796121
+        },
+        {
+          "label": "14时",
+          "value": 21.63700442811957
+        },
+        {
+          "label": "15时",
+          "value": 21.729665386361123
+        },
+        {
+          "label": "现价",
+          "value": 21.75,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>技术面分析</strong><br><br>The MACD and RSI indicators are used for technical analysis; support and resistance levels are key for price movement. Current support and resistance levels are not specified.<br><br>• 最新价: <span class=\"highlight\">21.750</span> | 涨跌幅: <span style=\"color:#059669\">++1.73%</span><br>• 今开: 21.660 → 最高: 21.880 / 最低: 21.530<br>• 成交量: 5978.0万手 | 成交额: 13.0亿元"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>基本面分析</strong><br><br>海尔智家市盈率为10.66，市值为2,084.65亿元，预计2026Q1每股收益为0.635。"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>消息面</strong><br><br>Haier Smart Home's recent announcements include profit recovery and stock buyback plans, with analysts maintaining positive outlooks despite market fluctuations."
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>飞哥观点</strong><br><br>综合评级: <span style=\"color:#059669;font-weight:700\">买入</span><br><br>短期动能较强，可适当关注，但需注意控制仓位。<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。</em>"
         }
       ]
     },
@@ -447,7 +547,7 @@ const DATA = {
       "risk": {
         "value": 35,
         "level": "中低",
-        "color": "var(--green)"
+        "color": "#059669"
       },
       "technicalIndicators": [
         {
@@ -466,15 +566,57 @@ const DATA = {
           "signal": "bullish"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（601318）</strong><br><br>• 最新价: <span class=\"highlight\">58.040</span><br>• 涨跌额: <span style=\"color:var(--green)\">+1.260</span> (+2.22%)<br>• 今开: 57.580 | 昨收: 56.780<br>• 最高: 58.260 | 最低: 57.540<br>• 成交量: 5245.5万手<br>• 成交额: 30.4亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "9时",
+          "value": 57.54
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "10时",
+          "value": 57.54
+        },
+        {
+          "label": "11时",
+          "value": 57.54
+        },
+        {
+          "label": "12时",
+          "value": 57.54
+        },
+        {
+          "label": "13时",
+          "value": 57.660800258354094
+        },
+        {
+          "label": "14时",
+          "value": 57.795430429414395
+        },
+        {
+          "label": "15时",
+          "value": 57.93236331880941
+        },
+        {
+          "label": "现价",
+          "value": 58.04,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>技术面分析</strong><br><br>中国平安 601318 技术面分析使用MACD和RSI指标，支撑位和阻力位帮助预测股价走势。波段操作依赖时间框架和心理节奏。中期趋势由周线把握，日线和4小时线用于精确入场。<br><br>• 最新价: <span class=\"highlight\">58.040</span> | 涨跌幅: <span style=\"color:#059669\">++2.22%</span><br>• 今开: 57.580 → 最高: 58.260 / 最低: 57.540<br>• 成交量: 5245.5万手 | 成交额: 30.4亿元"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>基本面分析</strong><br><br>China Ping An's market cap is 1.03 trillion yuan, PE ratio is 6.4, and ROE is 13.7%. The company's 2025 net profit grew 6.5% year-on-year."
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>消息面</strong><br><br>中国平安近期利好消息包括三渠道销售增长，利润稳升。公司公告显示了章程修订和注册资本变更。最新股价为56.33，下跌1.09%。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>飞哥观点</strong><br><br>综合评级: <span style=\"color:#059669;font-weight:700\">买入</span><br><br>短期动能较强，可适当关注，但需注意控制仓位。<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。</em>"
         }
       ]
     },
@@ -498,7 +640,7 @@ const DATA = {
       "risk": {
         "value": 50,
         "level": "中",
-        "color": "var(--yellow)"
+        "color": "#d97706"
       },
       "technicalIndicators": [
         {
@@ -517,15 +659,57 @@ const DATA = {
           "signal": "neutral"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（002415）</strong><br><br>• 最新价: <span class=\"highlight\">30.660</span><br>• 涨跌额: <span style=\"color:var(--green)\">+0.240</span> (+0.79%)<br>• 今开: 30.750 | 昨收: 30.420<br>• 最高: 30.840 | 最低: 30.520<br>• 成交量: 1674.8万手<br>• 成交额: 5.1亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "9时",
+          "value": 30.52
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "10时",
+          "value": 30.52
+        },
+        {
+          "label": "11时",
+          "value": 30.53634721165806
+        },
+        {
+          "label": "12时",
+          "value": 30.57618892344518
+        },
+        {
+          "label": "13时",
+          "value": 30.58509904733109
+        },
+        {
+          "label": "14时",
+          "value": 30.66283723398176
+        },
+        {
+          "label": "15时",
+          "value": 30.638545157138186
+        },
+        {
+          "label": "现价",
+          "value": 30.66,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>技术面分析</strong><br><br>海康威视002415的技术面分析显示MACD和RSI指标，支撑位和阻力位决定交易策略。当股价在支撑位反弹乏力时，建议谨慎。当前RSI指标在中等水平。<br><br>• 最新价: <span class=\"highlight\">30.660</span> | 涨跌幅: <span style=\"color:#059669\">++0.79%</span><br>• 今开: 30.750 → 最高: 30.840 / 最低: 30.520<br>• 成交量: 1674.8万手 | 成交额: 5.1亿元"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>基本面分析</strong><br><br>As of 2026, Hikvision's PE ratio is 17.62, its market capitalization is 2781.54 billion yuan, and it has a current stock price of 30.35 yuan."
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>消息面</strong><br><br>海康威视最新公告显示中标盐池县公安局项目，金额103万元。公司新品在全国风险监测会议亮相。股价当前为30.15元，下跌0.66%。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>飞哥观点</strong><br><br>综合评级: <span style=\"color:#059669;font-weight:700\">持有</span><br><br>当前走势平稳，建议耐心持有，关注支撑位变化。<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。</em>"
         }
       ]
     },
@@ -549,7 +733,7 @@ const DATA = {
       "risk": {
         "value": 35,
         "level": "中低",
-        "color": "var(--green)"
+        "color": "#059669"
       },
       "technicalIndicators": [
         {
@@ -568,15 +752,57 @@ const DATA = {
           "signal": "bullish"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（515070）</strong><br><br>• 最新价: <span class=\"highlight\">1.873</span><br>• 涨跌额: <span style=\"color:var(--green)\">+0.055</span> (+3.03%)<br>• 今开: 1.865 | 昨收: 1.818<br>• 最高: 1.882 | 最低: 1.857<br>• 成交量: 8380.4万手<br>• 成交额: 1.6亿元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "9时",
+          "value": 1.857
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "10时",
+          "value": 1.857
+        },
+        {
+          "label": "11时",
+          "value": 1.857
+        },
+        {
+          "label": "12时",
+          "value": 1.857
+        },
+        {
+          "label": "13时",
+          "value": 1.857
+        },
+        {
+          "label": "14时",
+          "value": 1.8627123215151924
+        },
+        {
+          "label": "15时",
+          "value": 1.8720753070753313
+        },
+        {
+          "label": "现价",
+          "value": 1.873,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>技术面分析</strong><br><br>人工智能ETF华夏 515070 技术面分析显示MACD处于中性，RSI略高，支撑位在1.80，阻力位在1.90。<br><br>• 最新价: <span class=\"highlight\">1.873</span> | 涨跌幅: <span style=\"color:#059669\">++3.03%</span><br>• 今开: 1.865 → 最高: 1.882 / 最低: 1.857<br>• 成交量: 8380.4万手 | 成交额: 1.6亿元"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>基本面分析</strong><br><br>人工智能ETF华夏 515070 PE 约为15，市值约100亿元，2025年预计AI推理Token消耗量将增长370倍。"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>消息面</strong><br><br>人工智能ETF华夏（515070）3月31日跌2.26%，份额增加1050万份，最新资产净值未提供。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>飞哥观点</strong><br><br>综合评级: <span style=\"color:#059669;font-weight:700\">买入</span><br><br>短期动能较强，可适当关注，但需注意控制仓位。<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。</em>"
         }
       ]
     },
@@ -600,7 +826,7 @@ const DATA = {
       "risk": {
         "value": 50,
         "level": "中",
-        "color": "var(--yellow)"
+        "color": "#d97706"
       },
       "technicalIndicators": [
         {
@@ -619,15 +845,57 @@ const DATA = {
           "signal": "neutral"
         }
       ],
-      "trend": [],
-      "analyses": [
+      "trend": [
         {
-          "tab": "📊 行情数据",
-          "content": "<strong>实时行情（HK1810）</strong><br><br>• 最新价: <span class=\"highlight\">32.000</span><br>• 涨跌额: <span style=\"color:var(--green)\">+0.240</span> (+0.76%)<br>• 今开: 32.360 | 昨收: 31.760<br>• 最高: 32.640 | 最低: 31.580<br>• 成交量: 1.0亿股<br>• 成交额: 32.8亿港元<br><br><em style=\"color:var(--text-muted)\">技术面、基本面、消息面深度分析将在正式定时任务中由 AI 自动生成。</em>"
+          "label": "9时",
+          "value": 31.8929589016343
         },
         {
-          "tab": "⚡ AI 分析",
-          "content": "<strong>AI 分析（待定时任务生成）</strong><br><br>正式版中，AI 将自动：<br>1. 搜索该股票最新技术指标（RSI、MACD、布林带）<br>2. 分析最新基本面数据（PE、市值、财报）<br>3. 搜索相关新闻和政策动态<br>4. 结合北向资金和龙虎榜数据<br>5. 给出综合评级和操作建议<br><br><em style=\"color:var(--text-muted)\">本预览版仅展示真实行情数据框架。</em>"
+          "label": "10时",
+          "value": 31.94526737981939
+        },
+        {
+          "label": "11时",
+          "value": 31.847318572453972
+        },
+        {
+          "label": "12时",
+          "value": 31.804524152077217
+        },
+        {
+          "label": "13时",
+          "value": 31.84150831157726
+        },
+        {
+          "label": "14时",
+          "value": 32.00189974231617
+        },
+        {
+          "label": "15时",
+          "value": 31.9154890522286
+        },
+        {
+          "label": "现价",
+          "value": 32,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>技术面分析</strong><br><br>Xiaomi's HKEX stock shows a bottoming rebound, with support near 14.5 HKD and resistance at 18.5 HKD. RSI and MACD indicate bullish momentum. A break above 19.0 HKD could confirm a \"W\" bottom.<br><br>• 最新价: <span class=\"highlight\">32.000</span> | 涨跌幅: <span style=\"color:#059669\">++0.76%</span><br>• 今开: 32.360 → 最高: 32.640 / 最低: 31.580<br>• 成交量: 1.0亿股 | 成交额: 32.8亿港元"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>基本面分析</strong><br><br>小米集团-W市值为8609.15亿，市盈率为16.86，ROE为15.46%。2026Q1每股收益预测为0.193。最新财报公布时间未公布。"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>消息面</strong><br><br>小米集团-W (01810) 近期有多家分析师建议买入，目标价格高达HKD80.43。公司最新消息包括股票回报和管理层变动。小米集团的股价在过去一年下跌36.17%。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>飞哥观点</strong><br><br>综合评级: <span style=\"color:#059669;font-weight:700\">持有</span><br><br>当前走势平稳，建议耐心持有，关注支撑位变化。<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。</em>"
         }
       ]
     }
