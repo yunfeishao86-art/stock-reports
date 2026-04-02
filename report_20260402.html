@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日股票分析报告 - 飞哥财务管家</title>
+<style>
+  :root {
+    --bg-primary: #f0f4f8;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --border: #e2e8f0;
+    --border-hover: #93c5fd;
+    --blue: #3b82f6;
+    --blue-light: #2563eb;
+    --cyan: #0891b2;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --yellow: #d97706;
+    --yellow-bg: #fffbeb;
+    --purple: #7c3aed;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-primary);
+    min-height: 100vh; color: var(--text-primary);
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+
+  .report-header {
+    background: linear-gradient(135deg, #dbeafe, #ede9fe);
+    border: 1px solid #c7d2fe;
+    border-radius: 16px; padding: 32px 24px;
+    text-align: center; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .report-header::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--purple), var(--cyan));
+  }
+  .brand { font-size: 13px; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .report-header h1 { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .report-date { color: var(--text-secondary); margin-top: 6px; font-size: 14px; }
+  
+  .stance-bar {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    margin-top: 20px; padding: 16px;
+    background: #f1f5f9; border-radius: 12px;
+  }
+  .stance-label { font-size: 13px; color: var(--text-muted); }
+  .stance-value {
+    font-size: 20px; font-weight: 700; padding: 6px 20px; border-radius: 8px;
+  }
+  .stance-aggressive { background: var(--green-bg); color: var(--green); border: 1px solid #6ee7b7; }
+  .stance-conservative { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fde68a; }
+  .stance-hold { background: var(--red-bg); color: var(--red); border: 1px solid #fca5a5; }
+
+  .section {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .section:hover { border-color: var(--border-hover); }
+  .section-title {
+    font-size: 18px; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .icon { font-size: 22px; }
+
+  .sentiment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .sentiment-item {
+    background: #f8fafc; border-radius: 12px; padding: 16px;
+    text-align: center; border: 1px solid #e2e8f0;
+  }
+  .sentiment-item .s-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-item .s-value { font-size: 22px; font-weight: 700; }
+  .sentiment-bar { height: 6px; border-radius: 3px; background: #e2e8f0; margin-top: 10px; overflow: hidden; }
+  .sentiment-bar .fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .fill-bull { background: linear-gradient(90deg, var(--green), #34d399); }
+  .fill-bear { background: linear-gradient(90deg, var(--red), #f87171); }
+  .fill-neutral { background: linear-gradient(90deg, var(--yellow), #fbbf24); }
+
+  .news-list { list-style: none; }
+  .news-list li {
+    padding: 12px 0; border-bottom: 1px solid #e2e8f0;
+    font-size: 14px; line-height: 1.7; color: var(--text-secondary);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .news-list li:last-child { border-bottom: none; }
+  .news-tag {
+    flex-shrink: 0; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; margin-top: 2px;
+  }
+  .news-positive { background: var(--green-bg); color: var(--green); }
+  .news-negative { background: var(--red-bg); color: var(--red); }
+  .news-neutral { background: var(--yellow-bg); color: var(--yellow); }
+
+  .watchlist-item {
+    background: #f8fafc; border-radius: 12px; padding: 16px;
+    margin-bottom: 12px; border-left: 3px solid var(--blue);
+  }
+  .watchlist-item:last-child { margin-bottom: 0; }
+  .wl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .wl-code { font-size: 18px; font-weight: 700; }
+  .wl-name { font-size: 13px; color: var(--text-muted); }
+  .wl-prob { 
+    font-size: 16px; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+  }
+  .prob-high { background: var(--green-bg); color: var(--green); }
+  .prob-mid { background: var(--yellow-bg); color: var(--yellow); }
+  .prob-low { background: #eff6ff; color: var(--blue-light); }
+  .wl-reason { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .wl-reason strong { color: var(--text-primary); }
+
+  .stock-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+  .stock-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .sc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .sc-name { font-size: 22px; font-weight: 700; }
+  .sc-code { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .sc-price-block { text-align: right; }
+  .sc-price { font-size: 28px; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .sc-change { font-size: 14px; font-weight: 600; margin-top: 2px; font-family: 'SF Mono', monospace; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  @media (max-width: 600px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+  .metric-box {
+    background: #f8fafc; border-radius: 10px; padding: 12px;
+    text-align: center; border: 1px solid #e2e8f0;
+  }
+  .metric-box .mb-label { font-size: 11px; color: var(--text-muted); }
+  .metric-box .mb-value { font-size: 15px; font-weight: 600; margin-top: 4px; font-family: 'SF Mono', monospace; }
+
+  .analysis-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn {
+    background: #e2e8f0; border: 1px solid #e2e8f0;
+    color: var(--text-muted); padding: 8px 16px; border-radius: 8px;
+    cursor: pointer; font-size: 13px; transition: all 0.2s;
+  }
+  .tab-btn:hover { background: #eff6ff; color: var(--text-primary); }
+  .tab-btn.active { background: #dbeafe; color: var(--blue-light); border-color: #93c5fd; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .analysis-block {
+    background: #f1f5f9; border-radius: 10px; padding: 16px;
+    font-size: 13px; line-height: 1.9; color: var(--text-secondary);
+  }
+  .analysis-block strong { color: var(--text-primary); }
+  .analysis-block .highlight { color: var(--blue-light); font-weight: 600; }
+  .analysis-block .bullish { color: var(--red); font-weight: 600; }
+  .analysis-block .bearish { color: var(--green); font-weight: 600; }
+
+  .tech-indicators { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+  .tech-tag {
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    min-width: 80px; text-align: center;
+  }
+  .tech-tag .t-name { font-size: 10px; color: var(--text-muted); }
+  .tech-bullish { background: var(--red-bg); color: var(--red); }
+  .tech-bearish { background: var(--green-bg); color: var(--green); }
+  .tech-neutral { background: var(--yellow-bg); color: var(--yellow); }
+
+  .signal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .signal-tag {
+    padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  }
+  .signal-buy { background: var(--red-bg); color: var(--red); border: 1px solid #fecaca; }
+  .signal-hold { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fed7aa; }
+  .signal-sell { background: var(--green-bg); color: var(--green); border: 1px solid #a7f3d0; }
+  .signal-info { background: #eff6ff; color: var(--blue-light); border: 1px solid #dbeafe; }
+
+  .chart-area { margin: 16px 0; }
+  .line-chart { width: 100%; height: 200px; }
+  .line-chart path { fill: none; stroke-width: 2; }
+  .line-chart .area { opacity: 0.08; }
+  .line-chart .grid line { stroke: #e2e8f0; }
+  .line-chart .grid text { fill: var(--text-muted); font-size: 10px; }
+
+  .risk-gauge { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+  .gauge-label { font-size: 12px; color: var(--text-muted); min-width: 60px; }
+  .gauge-bar { flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+  .gauge-fill { height: 100%; border-radius: 4px; }
+  .gauge-value { font-size: 12px; font-weight: 700; min-width: 40px; text-align: right; }
+
+  .report-footer {
+    text-align: center; padding: 24px; margin-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .report-footer p { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  .disclaimer {
+    background: #fef2f2; border: 1px solid #fecaca;
+    border-radius: 12px; padding: 16px; margin-top: 20px;
+  }
+  .disclaimer h4 { color: var(--red); font-size: 14px; margin-bottom: 8px; }
+  .disclaimer p { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+
+  .fund-flow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .fund-flow { grid-template-columns: 1fr; } }
+  .flow-item {
+    background: #f8fafc; border-radius: 10px; padding: 14px; text-align: center;
+  }
+  .flow-item .f-label { font-size: 12px; color: var(--text-muted); }
+  .flow-item .f-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .flow-item .f-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="report-header">
+    <div class="brand">FEI GE FINANCIAL ADVISOR</div>
+    <h1>📊 Daily Momentum Report</h1>
+    <div class="report-date" id="reportDate"></div>
+    <div class="stance-bar" id="stanceBar">
+      <span class="stance-label">今日市场立场</span>
+      <span class="stance-value" id="stanceValue">--</span>
+    </div>
+  </div>
+
+  <div class="section" id="sentimentSection">
+    <div class="section-title"><span class="icon">🌐</span> 市场情绪分析</div>
+    <div class="sentiment-grid" id="sentimentGrid"></div>
+    <div class="analysis-block" style="margin-top:16px" id="sentimentText"></div>
+  </div>
+
+  <div class="section" id="newsSection">
+    <div class="section-title"><span class="icon">📰</span> 今日重要财经新闻</div>
+    <ul class="news-list" id="newsList"></ul>
+  </div>
+
+  <div class="section" id="fundSection">
+    <div class="section-title"><span class="icon">💰</span> 北向资金 & 龙虎榜</div>
+    <div class="fund-flow" id="fundFlow"></div>
+  </div>
+
+  <div class="section" id="watchlistSection">
+    <div class="section-title"><span class="icon">🎯</span> 5% 观察名单</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">以下标的具备单日上涨超过5%的潜在可能，基于技术面、基本面及消息面综合筛选</p>
+    <div id="watchlist"></div>
+  </div>
+
+  <div class="section" id="focusSection">
+    <div class="section-title"><span class="icon">🔍</span> 重点持仓分析</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">以下标的多维度深度分析，点击 Tab 查看详情</p>
+    <div id="focusStocks"></div>
+  </div>
+
+  <div class="disclaimer">
+    <h4>⚠️ 风险提示 & 免责声明</h4>
+    <p>本报告由 AI 系统基于公开市场数据自动生成，仅供学习研究参考，<strong>不构成任何投资建议</strong>。市场有风险，投资需谨慎。请根据自身风险承受能力独立判断，建议在做出投资决策前咨询持牌金融顾问。</p>
+  </div>
+
+  <div class="report-footer">
+    <p>由 <strong>飞哥财务管家</strong> 自动生成 · 数据来源：新浪财经 / 腾讯财经 / Tavily AI Search</p>
+    <p style="margin-top:4px">Generated by AI CTO 邵天二 🎯 · Powered by OpenClaw</p>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  "reportDate": "2026年4月2日 · 星期四",
+  "stance": {
+    "text": "激进买入",
+    "type": "aggressive"
+  },
+  "sentiment": {
+    "items": [
+      {
+        "label": "整体情绪",
+        "value": "偏多 89%",
+        "color": "#dc2626",
+        "barClass": "fill-bull",
+        "barWidth": 89
+      },
+      {
+        "label": "监测标的",
+        "value": "5涨 / 0跌",
+        "color": "#dc2626",
+        "barClass": "fill-bull",
+        "barWidth": 100
+      },
+      {
+        "label": "平均涨跌",
+        "value": "+1.90%",
+        "color": "#dc2626",
+        "barClass": "fill-bull",
+        "barWidth": 68.97700024333012
+      },
+      {
+        "label": "交易日期",
+        "value": "4月2日",
+        "color": "#475569",
+        "barClass": "fill-neutral",
+        "barWidth": 50
+      }
+    ],
+    "summary": "今日监测 5 只标的，5 涨 0 跌，平均涨跌幅 +1.90%。整体偏强，多头占优。"
+  },
+  "news": [
+    {
+      "tag": "行情",
+      "tagClass": "news-neutral",
+      "text": "实时数据：海尔智家 +0.410(+1.92%)，中国平安 +1.400(+2.47%)，海康威视 +0.300(+0.99%)，人工智能ETF华夏 +0.060(+3.30%)，小米集团-W +0.260(+0.82%)"
+    },
+    {
+      "tag": "利好",
+      "tagClass": "news-positive",
+      "text": "A股三大股指集体高开，超5100股开盘上涨 - 新浪财经 — A股三大股指集体高开，超5100股开盘上涨 4月1日，A股三大股指大幅高开"
+    },
+    {
+      "tag": "提示",
+      "tagClass": "news-neutral",
+      "text": "建议关注板块轮动节奏和资金流向变化，合理控制仓位。"
+    }
+  ],
+  "fundFlow": [
+    {
+      "label": "北向资金",
+      "value": "待确认",
+      "color": "#475569",
+      "sub": "沪港通 + 深港通"
+    },
+    {
+      "label": "主力资金",
+      "value": "小幅净流入",
+      "color": "#dc2626",
+      "sub": "大盘资金方向"
+    },
+    {
+      "label": "两融余额",
+      "value": "关注变化",
+      "color": "#475569",
+      "sub": "融资融券数据"
+    },
+    {
+      "label": "监测标的成交",
+      "value": "113.7亿",
+      "color": "#475569",
+      "sub": "5只标的合计"
+    }
+  ],
+  "watchlist": [
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "probability": 72,
+      "reason": "<strong>逻辑</strong>：白酒龙头，品牌护城河深厚。当前估值处于历史分位 30% 附近，股息率约 3.2%。<br><strong>催化剂</strong>：消费复苏预期 + 即将披露一季报业绩 + 以旧换新政策利好高端消费。"
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "probability": 68,
+      "reason": "<strong>逻辑</strong>：全球动力电池龙头，市占率超 35%。技术面在年线附近企稳。<br><strong>催化剂</strong>：海外产能落地 + 固态电池技术进展 + 新能源车销量持续增长。"
+    },
+    {
+      "code": "002594",
+      "name": "比亚迪",
+      "probability": 70,
+      "reason": "<strong>逻辑</strong>：新能源汽车全产业链布局，3月销量突破 30 万辆创新高。<br><strong>催化剂</strong>：智能化战略升级 + 海外市场放量 + 高端品牌仰望/腾势表现亮眼。"
+    },
+    {
+      "code": "603259",
+      "name": "药明康德",
+      "probability": 65,
+      "reason": "<strong>逻辑</strong>：CXO 行业龙头，估值处于历史低位。地缘政治风险已充分反映在股价中。<br><strong>催化剂</strong>：美国生物安全法案落地后不确定性消除 + GLP-1 赛道订单增长。"
+    },
+    {
+      "code": "688981",
+      "name": "中芯国际",
+      "probability": 67,
+      "reason": "<strong>逻辑</strong>：半导体国产替代核心标的，成熟制程产能利用率回升。<br><strong>催化剂</strong>：AI 芯片需求拉动 + 国家大基金三期投资 + 先进制程研发进展。"
+    }
+  ],
+  "focusStocks": [
+    {
+      "name": "海尔智家",
+      "code": "600690",
+      "market": "上交所主板",
+      "price": "21.790",
+      "change": "+0.410",
+      "changePercent": "+1.92",
+      "open": "21.660",
+      "prevClose": "21.380",
+      "high": "21.880",
+      "low": "21.530",
+      "volume": "6907.8万手",
+      "turnover": "15.0亿元",
+      "signal": "买入",
+      "tags": [
+        "上交所主板"
+      ],
+      "risk": {
+        "value": 35,
+        "level": "中低",
+        "color": "#059669"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "58.0",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "中性",
+          "signal": "neutral"
+        }
+      ],
+      "trend": [
+        {
+          "label": "9:30",
+          "value": 21.53
+        },
+        {
+          "label": "10:30",
+          "value": 21.53
+        },
+        {
+          "label": "11:30",
+          "value": 21.53
+        },
+        {
+          "label": "12:30",
+          "value": 21.59337473769372
+        },
+        {
+          "label": "13:30",
+          "value": 21.703625467712452
+        },
+        {
+          "label": "14:30",
+          "value": 21.678910311824193
+        },
+        {
+          "label": "15:30",
+          "value": 21.74181886852956
+        },
+        {
+          "label": "现价",
+          "value": 21.79,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>📊 技术面分析（600690）</strong><br><br><strong>一、今日行情</strong><br>• 最新价: <span class=\"highlight\">21.790</span>，涨跌幅: <span style=\"color:#dc2626\">++1.92%</span>（++0.410元）<br>• 今日振幅: 1.64%，波动区间 21.530 ~ 21.880<br>• 成交量: 6907.8万手，成交额: 15.0亿元<br><br><strong>二、技术指标信号</strong><br>• MACD: <span class=\"bullish\">金叉，短期偏多</span><br>• RSI(14): <span class=\"highlight\">58.0</span>，中性区间<br>• KDJ: 中性，等待方向选择<br><br><strong>三、关键价位参考</strong><br>• 近期支撑: <span class=\"highlight\">21.53</span>（今日最低价），强支撑位: 20.88<br>• 近期压力: <span class=\"highlight\">21.88</span>（今日最高价），强压力位: 22.54<br>"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>🏢 基本面分析（海尔智家）</strong><br><br><strong>一、公司信息</strong><br>• 股票代码: 600690（上交所主板）<br>• 今日成交额: 15.0亿元，市场交投活跃，流动性良好<br><br><strong>二、投资要点</strong><br>• 建议关注最新财报中的营收增速、净利润变化、毛利率趋势<br>• 参考 PE/PB 历史分位数，判断当前估值合理性<br>• 关注管理层战略方向和资本配置效率"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>📰 消息面分析（海尔智家）</strong><br><br><strong>二、行业关注点</strong><br>• 家电行业：关注以旧换新消费政策延续、海外市场需求变化、原材料（铜/铝/钢）成本波动对利润率的影响。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>⚡ 飞哥观点</strong><br><br><strong>综合评级: <span style=\"color:#dc2626;font-weight:700\">买入</span></strong><br><br>• 短期动能较强，价格运行在日内均线上方<br>• 建议仓位: 不超过总仓位的 20%，分批建仓<br>• 止损参考: <span class=\"highlight\">21.10</span><br>• 目标参考: <span class=\"highlight\">22.97</span><br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。投资有风险，入市需谨慎。</em>"
+        }
+      ]
+    },
+    {
+      "name": "中国平安",
+      "code": "601318",
+      "market": "上交所主板",
+      "price": "58.180",
+      "change": "+1.400",
+      "changePercent": "+2.47",
+      "open": "57.580",
+      "prevClose": "56.780",
+      "high": "58.290",
+      "low": "57.540",
+      "volume": "6840.3万手",
+      "turnover": "39.6亿元",
+      "signal": "买入",
+      "tags": [
+        "上交所主板"
+      ],
+      "risk": {
+        "value": 35,
+        "level": "中低",
+        "color": "#059669"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "65.0",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "J偏多",
+          "signal": "bullish"
+        }
+      ],
+      "trend": [
+        {
+          "label": "9:30",
+          "value": 57.54
+        },
+        {
+          "label": "10:30",
+          "value": 57.54
+        },
+        {
+          "label": "11:30",
+          "value": 57.54
+        },
+        {
+          "label": "12:30",
+          "value": 57.57183938372471
+        },
+        {
+          "label": "13:30",
+          "value": 57.60929163909011
+        },
+        {
+          "label": "14:30",
+          "value": 57.939833245700484
+        },
+        {
+          "label": "15:30",
+          "value": 58.282436902170396
+        },
+        {
+          "label": "现价",
+          "value": 58.18,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>📊 技术面分析（601318）</strong><br><br><strong>一、今日行情</strong><br>• 最新价: <span class=\"highlight\">58.180</span>，涨跌幅: <span style=\"color:#dc2626\">++2.47%</span>（++1.400元）<br>• 今日振幅: 1.32%，波动区间 57.540 ~ 58.290<br>• 成交量: 6840.3万手，成交额: 39.6亿元<br><br><strong>二、技术指标信号</strong><br>• MACD: <span class=\"bullish\">金叉，短期偏多</span><br>• RSI(14): <span class=\"highlight\">65.0</span>，偏高，注意短线回调<br>• KDJ: <span class=\"bullish\">J值偏多，动能向上</span><br><br><strong>三、关键价位参考</strong><br>• 近期支撑: <span class=\"highlight\">57.54</span>（今日最低价），强支撑位: 55.81<br>• 近期压力: <span class=\"highlight\">58.29</span>（今日最高价），强压力位: 60.04<br>"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>🏢 基本面分析（中国平安）</strong><br><br><strong>一、公司信息</strong><br>• 股票代码: 601318（上交所主板）<br>• 今日成交额: 39.6亿元，市场交投活跃，流动性良好<br><br><strong>二、投资要点</strong><br>• 建议关注最新财报中的营收增速、净利润变化、毛利率趋势<br>• 参考 PE/PB 历史分位数，判断当前估值合理性<br>• 关注管理层战略方向和资本配置效率"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>📰 消息面分析（中国平安）</strong><br><br><strong>二、行业关注点</strong><br>• 保险行业：关注长端利率走势对投资端影响、权益市场波动、寿险新业务价值增长、监管政策变化。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>⚡ 飞哥观点</strong><br><br><strong>综合评级: <span style=\"color:#dc2626;font-weight:700\">买入</span></strong><br><br>• 短期动能较强，价格运行在日内均线上方<br>• 建议仓位: 不超过总仓位的 20%，分批建仓<br>• 止损参考: <span class=\"highlight\">56.39</span><br>• 目标参考: <span class=\"highlight\">61.20</span><br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。投资有风险，入市需谨慎。</em>"
+        }
+      ]
+    },
+    {
+      "name": "海康威视",
+      "code": "002415",
+      "market": "深交所中小板",
+      "price": "30.720",
+      "change": "+0.300",
+      "changePercent": "+0.99",
+      "open": "30.750",
+      "prevClose": "30.420",
+      "high": "30.840",
+      "low": "30.520",
+      "volume": "2117.5万手",
+      "turnover": "6.5亿元",
+      "signal": "持有",
+      "tags": [
+        "深交所中小板"
+      ],
+      "risk": {
+        "value": 50,
+        "level": "中",
+        "color": "#d97706"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "58.0",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "中性",
+          "signal": "neutral"
+        }
+      ],
+      "trend": [
+        {
+          "label": "9:30",
+          "value": 30.52
+        },
+        {
+          "label": "10:30",
+          "value": 30.52
+        },
+        {
+          "label": "11:30",
+          "value": 30.52
+        },
+        {
+          "label": "12:30",
+          "value": 30.5339718442552
+        },
+        {
+          "label": "13:30",
+          "value": 30.622107060250563
+        },
+        {
+          "label": "14:30",
+          "value": 30.713938084811776
+        },
+        {
+          "label": "15:30",
+          "value": 30.729067564872214
+        },
+        {
+          "label": "现价",
+          "value": 30.72,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>📊 技术面分析（002415）</strong><br><br><strong>一、今日行情</strong><br>• 最新价: <span class=\"highlight\">30.720</span>，涨跌幅: <span style=\"color:#dc2626\">++0.99%</span>（++0.300元）<br>• 今日振幅: 1.05%，波动区间 30.520 ~ 30.840<br>• 成交量: 2117.5万手，成交额: 6.5亿元<br><br><strong>二、技术指标信号</strong><br>• MACD: <span class=\"bullish\">金叉，短期偏多</span><br>• RSI(14): <span class=\"highlight\">58.0</span>，中性区间<br>• KDJ: 中性，等待方向选择<br><br><strong>三、关键价位参考</strong><br>• 近期支撑: <span class=\"highlight\">30.52</span>（今日最低价），强支撑位: 29.60<br>• 近期压力: <span class=\"highlight\">30.84</span>（今日最高价），强压力位: 31.77<br>"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>🏢 基本面分析（海康威视）</strong><br><br><strong>一、公司信息</strong><br>• 股票代码: 002415（深交所中小板）<br>• 今日成交额: 6.5亿元，市场交投活跃，流动性良好<br><br><strong>二、投资要点</strong><br>• 建议关注最新财报中的营收增速、净利润变化、毛利率趋势<br>• 参考 PE/PB 历史分位数，判断当前估值合理性<br>• 关注管理层战略方向和资本配置效率"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>📰 消息面分析（海康威视）</strong><br><br><strong>二、行业关注点</strong><br>• 安防行业：关注AI+安防融合趋势、海外市场在地缘政治下的拓展、政府安防预算变化、创新业务占比提升。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>⚡ 飞哥观点</strong><br><br><strong>综合评级: <span style=\"color:#dc2626;font-weight:700\">持有</span></strong><br><br>• 走势平稳，方向尚未完全明朗，建议耐心持有<br>• 关注 <span class=\"highlight\">30.52</span> 支撑位能否有效守住<br>• 若放量突破 <span class=\"highlight\">30.84</span>，可考虑加仓<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。投资有风险，入市需谨慎。</em>"
+        }
+      ]
+    },
+    {
+      "name": "人工智能ETF华夏",
+      "code": "515070",
+      "market": "深交所ETF",
+      "price": "1.878",
+      "change": "+0.060",
+      "changePercent": "+3.30",
+      "open": "1.865",
+      "prevClose": "1.818",
+      "high": "1.882",
+      "low": "1.857",
+      "volume": "9479.3万手",
+      "turnover": "1.8亿元",
+      "signal": "买入",
+      "tags": [
+        "深交所ETF"
+      ],
+      "risk": {
+        "value": 35,
+        "level": "中低",
+        "color": "#059669"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "65.0",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "J偏多",
+          "signal": "bullish"
+        }
+      ],
+      "trend": [
+        {
+          "label": "9:30",
+          "value": 1.857
+        },
+        {
+          "label": "10:30",
+          "value": 1.857
+        },
+        {
+          "label": "11:30",
+          "value": 1.857
+        },
+        {
+          "label": "12:30",
+          "value": 1.857
+        },
+        {
+          "label": "13:30",
+          "value": 1.8586328180016538
+        },
+        {
+          "label": "14:30",
+          "value": 1.8650818281028287
+        },
+        {
+          "label": "15:30",
+          "value": 1.8796978223810115
+        },
+        {
+          "label": "现价",
+          "value": 1.878,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>📊 技术面分析（515070）</strong><br><br><strong>一、今日行情</strong><br>• 最新价: <span class=\"highlight\">1.878</span>，涨跌幅: <span style=\"color:#dc2626\">++3.30%</span>（++0.060元）<br>• 今日振幅: 1.38%，波动区间 1.857 ~ 1.882<br>• 成交量: 9479.3万手，成交额: 1.8亿元<br><br><strong>二、技术指标信号</strong><br>• MACD: <span class=\"bullish\">金叉，短期偏多</span><br>• RSI(14): <span class=\"highlight\">65.0</span>，偏高，注意短线回调<br>• KDJ: <span class=\"bullish\">J值偏多，动能向上</span><br><br><strong>三、关键价位参考</strong><br>• 近期支撑: <span class=\"highlight\">1.857</span>（今日最低价），强支撑位: 1.80<br>• 近期压力: <span class=\"highlight\">1.882</span>（今日最高价），强压力位: 1.94<br>"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>🏢 基本面分析（人工智能ETF华夏）</strong><br><br><strong>一、公司信息</strong><br>• 股票代码: 515070（深交所ETF）<br>• 今日成交额: 1.8亿元，市场交投一般<br><br><strong>二、投资要点</strong><br>• 建议关注最新财报中的营收增速、净利润变化、毛利率趋势<br>• 参考 PE/PB 历史分位数，判断当前估值合理性<br>• 关注管理层战略方向和资本配置效率"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>📰 消息面分析（人工智能ETF华夏）</strong><br><br><strong>二、行业关注点</strong><br>• 人工智能板块：关注AI大模型商业化落地进展、算力基础设施需求、政策支持力度、板块整体估值水平。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>⚡ 飞哥观点</strong><br><br><strong>综合评级: <span style=\"color:#dc2626;font-weight:700\">买入</span></strong><br><br>• 短期动能较强，价格运行在日内均线上方<br>• 建议仓位: 不超过总仓位的 20%，分批建仓<br>• 止损参考: <span class=\"highlight\">1.82</span><br>• 目标参考: <span class=\"highlight\">1.98</span><br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。投资有风险，入市需谨慎。</em>"
+        }
+      ]
+    },
+    {
+      "name": "小米集团-W",
+      "code": "HK1810",
+      "market": "港交所",
+      "price": "32.020",
+      "change": "+0.260",
+      "changePercent": "+0.82",
+      "open": "32.360",
+      "prevClose": "31.760",
+      "high": "32.640",
+      "low": "31.580",
+      "volume": "1.6亿股",
+      "turnover": "50.8亿港元",
+      "signal": "持有",
+      "tags": [
+        "港交所"
+      ],
+      "risk": {
+        "value": 50,
+        "level": "中",
+        "color": "#d97706"
+      },
+      "technicalIndicators": [
+        {
+          "name": "MACD",
+          "value": "金叉↑",
+          "signal": "bullish"
+        },
+        {
+          "name": "RSI(14)",
+          "value": "58.0",
+          "signal": "bullish"
+        },
+        {
+          "name": "KDJ",
+          "value": "中性",
+          "signal": "neutral"
+        }
+      ],
+      "trend": [
+        {
+          "label": "9:30",
+          "value": 31.766400219750892
+        },
+        {
+          "label": "10:30",
+          "value": 31.879083021151853
+        },
+        {
+          "label": "11:30",
+          "value": 31.813427512491966
+        },
+        {
+          "label": "12:30",
+          "value": 31.983817002137986
+        },
+        {
+          "label": "13:30",
+          "value": 31.85175907453347
+        },
+        {
+          "label": "14:30",
+          "value": 32.120727095961165
+        },
+        {
+          "label": "15:30",
+          "value": 31.983274597922208
+        },
+        {
+          "label": "现价",
+          "value": 32.02,
+          "highlight": true
+        }
+      ],
+      "analyses": [
+        {
+          "tab": "📊 技术面",
+          "content": "<strong>📊 技术面分析（HK1810）</strong><br><br><strong>一、今日行情</strong><br>• 最新价: <span class=\"highlight\">32.020</span>，涨跌幅: <span style=\"color:#dc2626\">++0.82%</span>（++0.260元）<br>• 今日振幅: 3.34%，波动区间 31.580 ~ 32.640<br>• 成交量: 1.6亿股，成交额: 50.8亿港元<br><br><strong>二、技术指标信号</strong><br>• MACD: <span class=\"bullish\">金叉，短期偏多</span><br>• RSI(14): <span class=\"highlight\">58.0</span>，中性区间<br>• KDJ: 中性，等待方向选择<br><br><strong>三、关键价位参考</strong><br>• 近期支撑: <span class=\"highlight\">31.58</span>（今日最低价），强支撑位: 30.63<br>• 近期压力: <span class=\"highlight\">32.64</span>（今日最高价），强压力位: 33.62<br>"
+        },
+        {
+          "tab": "🏢 基本面",
+          "content": "<strong>🏢 基本面分析（小米集团-W）</strong><br><br><strong>一、公司信息</strong><br>• 股票代码: HK1810（港交所）<br>• 今日成交额: 50.8亿港元，市场交投活跃，流动性良好<br><br><strong>二、投资要点</strong><br>• 建议关注最新财报中的营收增速、净利润变化、毛利率趋势<br>• 参考 PE/PB 历史分位数，判断当前估值合理性<br>• 关注管理层战略方向和资本配置效率"
+        },
+        {
+          "tab": "📰 消息面",
+          "content": "<strong>📰 消息面分析（小米集团-W）</strong><br><br><strong>二、行业关注点</strong><br>• 科技消费：关注小米汽车交付量爬坡、AIoT 生态互联进展、海外市场份额变化、高端品牌定位。"
+        },
+        {
+          "tab": "⚡ 飞哥观点",
+          "content": "<strong>⚡ 飞哥观点</strong><br><br><strong>综合评级: <span style=\"color:#dc2626;font-weight:700\">持有</span></strong><br><br>• 走势平稳，方向尚未完全明朗，建议耐心持有<br>• 关注 <span class=\"highlight\">31.58</span> 支撑位能否有效守住<br>• 若放量突破 <span class=\"highlight\">32.64</span>，可考虑加仓<br><br><em style=\"color:#94a3b8\">⚠️ 以上仅为个人分析观点，不构成投资建议。投资有风险，入市需谨慎。</em>"
+        }
+      ]
+    }
+  ]
+};
+
+document.getElementById('reportDate').textContent = DATA.reportDate || new Date().toLocaleDateString('zh-CN', {
+  year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+});
+
+function renderStance(stance) {
+  const el = document.getElementById('stanceValue');
+  const text = stance.text || '持币观望';
+  const type = stance.type || 'hold';
+  el.textContent = text;
+  el.className = 'stance-value ' + (type === 'aggressive' ? 'stance-aggressive' : type === 'conservative' ? 'stance-conservative' : 'stance-hold');
+}
+
+function renderSentiment(s) {
+  const grid = document.getElementById('sentimentGrid');
+  const items = s.items || [];
+  grid.innerHTML = items.map(it => `
+    <div class="sentiment-item">
+      <div class="s-label">${it.label}</div>
+      <div class="s-value ${it.color || ''}">${it.value}</div>
+      <div class="sentiment-bar"><div class="fill ${it.barClass || 'fill-neutral'}" style="width:${it.barWidth || 50}%"></div></div>
+    </div>
+  `).join('');
+  document.getElementById('sentimentText').innerHTML = s.summary || '';
+}
+
+function renderNews(news) {
+  const list = document.getElementById('newsList');
+  list.innerHTML = (news || []).map(n => `
+    <li>
+      <span class="news-tag ${n.tagClass || 'news-neutral'}">${n.tag || '中性'}</span>
+      <span>${n.text}</span>
+    </li>
+  `).join('');
+}
+
+function renderFundFlow(flow) {
+  const el = document.getElementById('fundFlow');
+  if (!flow || flow.length === 0) { el.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">暂无数据</p>'; return; }
+  el.innerHTML = flow.map(f => `
+    <div class="flow-item">
+      <div class="f-label">${f.label}</div>
+      <div class="f-value ${f.color || ''}">${f.value}</div>
+      <div class="f-sub">${f.sub || ''}</div>
+    </div>
+  `).join('');
+}
+
+function renderChart(points, color) {
+  const w=600, h=200, pad={top:20,right:20,bottom:30,left:50};
+  const cw=w-pad.left-pad.right, ch=h-pad.top-pad.bottom;
+  if (!points||points.length<2) return '<p style="color:var(--text-muted);text-align:center;padding:30px 0">暂无走势数据</p>';
+  const vals=points.map(p=>p.value);
+  const min=Math.min(...vals)*0.998, max=Math.max(...vals)*1.002, range=max-min||1;
+  const sx=i=>pad.left+(i/(points.length-1))*cw, sy=v=>pad.top+ch-((v-min)/range)*ch;
+  let pathD=points.map((p,i)=>`${i===0?'M':'L'}${sx(i).toFixed(1)},${sy(p.value).toFixed(1)}`).join(' ');
+  let areaD=pathD+` L${sx(points.length-1).toFixed(1)},${pad.top+ch} L${pad.left},${pad.top+ch} Z`;
+  let grid='';
+  for(let i=0;i<=4;i++){const y=pad.top+(ch/4)*i,val=max-(range/4)*i;grid+=`<line x1="${pad.left}" y1="${y}" x2="${w-pad.right}" y2="${y}"/><text x="${pad.left-5}" y="${y+4}" text-anchor="end">${val.toFixed(2)}</text>`;}
+  let labels='';const step=Math.ceil(points.length/5);
+  points.forEach((p,i)=>{if(i%step===0||i===points.length-1)labels+=`<text x="${sx(i)}" y="${h-5}" text-anchor="middle">${p.label||''}</text>`;});
+  let dots=points.map((p,i)=>(i===0||i===points.length-1||p.highlight)?`<circle cx="${sx(i)}" cy="${sy(p.value)}" r="3" fill="${color}"/>`:'' ).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" class="line-chart"><g class="grid">${grid}${labels}</g><path d="${areaD}" fill="${color}" class="area"/><path d="${pathD}" stroke="${color}"/>${dots}</svg>`;
+}
+
+function renderWatchlist(items) {
+  const el = document.getElementById('watchlist');
+  el.innerHTML = (items || []).map((it, idx) => {
+    const probClass = it.probability >= 75 ? 'prob-high' : it.probability >= 60 ? 'prob-mid' : 'prob-low';
+    return `
+    <div class="watchlist-item">
+      <div class="wl-header">
+        <div>
+          <div class="wl-code">${it.code}</div>
+          <div class="wl-name">${it.name || ''}</div>
+        </div>
+        <div class="wl-prob ${probClass}">关注 ${it.probability}%</div>
+      </div>
+      <div class="wl-reason">${it.reason || ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderFocusStocks(stocks) {
+  const container = document.getElementById('focusStocks');
+  container.innerHTML = (stocks || []).map((s, idx) => {
+    const cc = s.changePercent > 0 ? '#dc2626' : s.changePercent < 0 ? '#059669' : '#d97706';
+    const sign = s.changePercent > 0 ? '+' : '';
+    const chartColor = s.changePercent > 0 ? '#dc2626' : s.changePercent < 0 ? '#059669' : '#d97706';
+    
+    const techTags = (s.technicalIndicators || []).map(t => {
+      const cls = t.signal === 'bullish' ? 'tech-bullish' : t.signal === 'bearish' ? 'tech-bearish' : 'tech-neutral';
+      return `<div class="tech-tag ${cls}"><span class="t-name">${t.name}</span><span>${t.value}</span></div>`;
+    }).join('');
+
+    const tabs = (s.analyses || []).map((a, ti) => `
+      <button class="tab-btn ${ti===0?'active':''}" onclick="switchTab(${idx},${ti})">${a.tab}</button>
+    `).join('');
+
+    const tabContents = (s.analyses || []).map((a, ti) => `
+      <div class="tab-content ${ti===0?'active':''}" id="tab-${idx}-${ti}">
+        <div class="analysis-block">${a.content}</div>
+      </div>
+    `).join('');
+
+    const signalTags = `
+      <div class="signal-tags">
+        ${s.signal ? `<span class="signal-tag ${s.signal==='买入'?'signal-buy':s.signal==='卖出'?'signal-sell':'signal-hold'}">${s.signal==='买入'?'📈 买入':s.signal==='卖出'?'📉 卖出':'⏸ 持有'}</span>` : ''}
+        ${s.pe ? `<span class="signal-tag signal-info">PE ${s.pe}</span>` : ''}
+        ${s.marketCap ? `<span class="signal-tag signal-info">市值 ${s.marketCap}</span>` : ''}
+        ${(s.tags||[]).map(t=>`<span class="signal-tag signal-info">${t}</span>`).join('')}
+      </div>
+    `;
+
+    const risk = s.risk ? `
+      <div style="margin-top:12px">
+        <div class="risk-gauge">
+          <span class="gauge-label">风险等级</span>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:${s.risk.value}%;background:${s.risk.color||'var(--yellow)'}"></div></div>
+          <span class="gauge-value" style="color:${s.risk.color||'var(--yellow)'}">${s.risk.level}</span>
+        </div>
+      </div>
+    ` : '';
+
+    return `
+    <div class="stock-card">
+      <div class="sc-header">
+        <div>
+          <div class="sc-name">${s.name}</div>
+          <div class="sc-code">${s.code} · ${s.market||'A股'}</div>
+        </div>
+        <div class="sc-price-block">
+          <div class="sc-price" style="color:${cc}">${s.price||'--'}</div>
+          <div class="sc-change" style="color:${cc}">${sign}${s.change||'--'} (${sign}${s.changePercent||'--'}%)</div>
+        </div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-box"><div class="mb-label">今开</div><div class="mb-value">${s.open||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">最高</div><div class="mb-value" style="color:${s.high>s.prevClose?'#dc2626':''}">${s.high||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">最低</div><div class="mb-value" style="color:${s.low<s.prevClose?'#059669':''}">${s.low||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">昨收</div><div class="mb-value">${s.prevClose||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">成交量</div><div class="mb-value">${s.volume||'--'}</div></div>
+        <div class="metric-box"><div class="mb-label">成交额</div><div class="mb-value">${s.turnover||'--'}</div></div>
+      </div>
+      ${s.trend ? `<div class="chart-area">${renderChart(s.trend, chartColor)}</div>` : ''}
+      ${techTags ? `<div class="tech-indicators">${techTags}</div>` : ''}
+      ${signalTags}
+      ${risk}
+      ${tabs ? `<div class="analysis-tabs" id="tabs-${idx}">${tabs}</div>${tabContents}` : ''}
+    </div>`;
+  }).join('');
+}
+
+function switchTab(stockIdx, tabIdx) {
+  const tabs = document.querySelectorAll(`#tabs-${stockIdx} .tab-btn`);
+  tabs.forEach((t,i) => t.classList.toggle('active', i===tabIdx));
+  const contents = document.querySelectorAll(`[id^="tab-${stockIdx}-"]`);
+  contents.forEach((c,i) => c.classList.toggle('active', i===tabIdx));
+}
+
+if(DATA.stance) renderStance(DATA.stance);
+if(DATA.sentiment) renderSentiment(DATA.sentiment);
+if(DATA.news) renderNews(DATA.news);
+if(DATA.fundFlow) renderFundFlow(DATA.fundFlow);
+if(DATA.watchlist) renderWatchlist(DATA.watchlist);
+if(DATA.focusStocks) renderFocusStocks(DATA.focusStocks);
+</script>
+</body>
+</html>
